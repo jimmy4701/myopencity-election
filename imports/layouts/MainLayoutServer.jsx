@@ -67,16 +67,7 @@ export class MainLayoutServer extends Component {
             <Public component={Conditions} exact path="/conditions" { ...this.props } />
             <Public component={SignupPage} exact path="/sign_up"       { ...this.props } />
             <Public component={SigninPage} exact path="/sign_in"       { ...this.props } />
-            <Public component={ConsultsPage} exact path="/consults"       { ...this.props } />
-            <Public component={ConsultPage} exact path="/consults/:urlShorten"       { ...this.props } />
-            <Public component={ProfilePage} exact path="/profile/:user_id"       { ...this.props } />
-            <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
-            <Public component={NewProjectPage} exact path="/projects/new"       { ...this.props } />
-            <Public component={NewProjectPage} exact path="/projects/new/:parent_id"       { ...this.props } />
-            <Public component={EditProjectPage} exact path="/projects/edit/:shorten_url"       { ...this.props } />
-            <Public component={ProjectPage} exact path="/projects/:shorten_url"       { ...this.props } />
             <Public component={MyProfile} exact path="/me/profile"       { ...this.props } />
-            <Public component={MyProjectsPage} exact path="/me/projects"       { ...this.props } />
             <Public component={SendPasswordEmail} exact path="/forgot_password" { ...this.props } />
             <Public component={ResetPassword} exact path="/reset-password/:token" { ...this.props } />
             <Public component={NotFound} path="*"  { ...this.props } />

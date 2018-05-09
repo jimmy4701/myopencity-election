@@ -32,19 +32,19 @@ export default class Navbar extends TrackerReact(Component){
             <Container>
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
-                  {main_title}
+                  Intro
                 </div>
               </Link>
-              {navbar_consults &&
-                <Link className="item" to="/consults">
-                  <div className="navbar-item">Consultations</div>
-                </Link>
-              }
-              {navbar_projects && 
-                <Link className="item" to="/projects">
-                  <div className="navbar-item">Propositions</div>
-                </Link>
-              }
+              <Link className="item" to='/'>
+                <div className="navbar-item" header>
+                  Candidats
+                </div>
+              </Link>
+              <Link className="item" to='/'>
+                <div className="navbar-item" header>
+                  Partenaires
+                </div>
+              </Link>
               <Menu.Menu position='right' className="item">
                 <NavbarAccountItem />
               </Menu.Menu>

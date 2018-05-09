@@ -57,9 +57,6 @@ export class MyProfile extends Component {
           </Grid.Column>
           <Grid.Column width={8} className="wow fadeIn">
             <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
-            <Link to={Meteor.isClient && ("/profile/" + Meteor.userId())} >
-              <Button size="mini" content="Voir mon profil public" />
-            </Link>
             <EditProfileForm />
           </Grid.Column>
         </Grid>

@@ -70,9 +70,6 @@ class NavbarAccountItem extends TrackerReact(Component){
             <Link to="/me/profile">
               <Dropdown.Item>Profil</Dropdown.Item>
             </Link>
-            <Link to="/me/projects">
-              <Dropdown.Item>Mes propositions</Dropdown.Item>
-            </Link>
             {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) ?
               <Link to="/admin/consults">
                 <Dropdown.Item>Admin</Dropdown.Item>
