@@ -1,0 +1,30 @@
+// Admin Project Partial
+.admin-project-partial{
+  cursor: pointer;
+  padding: 1em;
+  background-color: #353535;
+  color: white;
+}
+
+// Public Project Partial
+.project-partial{
+  .likes-container{
+    font-size: 0.7em;
+  }
+
+  .author-container{
+    font-size: 0.7em;
+  }
+}
+
+.project-content{
+
+  @media screen and (min-width: 200px) and (max-width: 640px) {
+    padding: 0 1em;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

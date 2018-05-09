@@ -1,0 +1,129 @@
+@import './global_variables.scss';
+/*
+  This file contains all helpers and global SCSS declarations
+*/
+
+/* ---------- HELPERS */
+.center-align{
+  text-align: center !important;
+}
+
+.right-align{
+  text-align: right !important;
+}
+
+.left-align{
+  text-align: left !important;
+}
+
+.justiy-align{
+  text-align: justiy !important;
+}
+
+.inline-block{
+  display: inline-block !important;
+}
+
+.marged{
+  margin: 3em 0 !important;
+}
+
+.not-marged{
+  margin: 0 !important;
+}
+
+.padded-bottom{
+  padding-bottom: 2em !important;
+}
+
+.background-img{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+/* -------- COLOR CLASSES */
+.white{
+  color: white !important;
+}
+
+.emerald{
+  color: $global_emerald;
+}
+
+.turquoise{
+  color: $global_turquoise;
+}
+
+.nephritis{
+  color: $global_nephritis;
+}
+
+.pomegranate{
+  color: $global_pomegranate;
+}
+
+.pumpkin{
+  color: $global_pumpkin;
+}
+
+.karot{
+  color: $global_karot;
+}
+
+
+/* -------- MAIN CLASSES */
+
+body{
+  -webkit-print-color-adjust: exact;
+}
+
+.main-container{
+  min-height: 90vh;
+}
+
+.ui {
+  font-family: "Roboto" !important;
+}
+
+.ui.button {
+  border-radius: 0 !important;
+}
+
+.open-sidebar-button{
+  position: fixed !important;
+  bottom: 10px;
+  left: 10px;
+
+  i.icon {
+    color: white;
+  }
+}
+
+.opencity-divider{
+  font-size: 1.2em !important;
+  margin: 3em 0 !important;
+}
+
+.pusher, .pushable {
+  min-height: 100vh !important;
+}
+
+.avatar-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 100em;
+  height: 21em;
+  width: 21em;
+  display: inline-block;
+}
+
+// OVERIDE CLASSES
+.mce-notification{
+  display: none !important;
+}
