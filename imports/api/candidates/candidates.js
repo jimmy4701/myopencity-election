@@ -12,6 +12,12 @@ const CandidateSchema = new SimpleSchema({
     lastname: {
       type: String
     },
+    punchline: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
     social_url: {
       type: String
     },

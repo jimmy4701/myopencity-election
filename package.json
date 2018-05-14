@@ -30,6 +30,6 @@
     "react-tools": "^0.13.3",
     "semantic-ui-css": "^2.2.10",
     "semantic-ui-react": "^0.67.2",
-    "styled-components": "^2.2.3"
+    "styled-components": "^2.4.0"
   }
 }

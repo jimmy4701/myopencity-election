@@ -6,15 +6,18 @@ import {Consults} from '/imports/api/consults/consults'
 import {Projects} from '/imports/api/projects/projects'
 import {Configuration} from '/imports/api/configuration/configuration'
 import {Link} from 'react-router-dom'
+import CardCandidate from '/imports/components/candidates/CardCandidate';
 
 export class Landing extends TrackerReact(Component){
 
   constructor(props){
     super(props)
     this.state = {
-
+      voted: false,
     }
   }
+
+  toggleVote = () => this.setState({voted: !this.state.voted});
 
   render(){
 
@@ -31,6 +34,7 @@ export class Landing extends TrackerReact(Component){
     } = global_configuration
 
     if(!loading){
+      const { voted } = this.state;
       return(
         <Grid stackable centered className="landing-page">
           <Grid.Column width={16}>
@@ -50,6 +54,50 @@ export class Landing extends TrackerReact(Component){
               <Grid.Column width={16}>
                 <Container>
                   <div dangerouslySetInnerHTML={{__html: landing_explain_text }}></div>
+                  <Grid stackable centered >
+                  <Grid.Column width={5}>
+                  <CardCandidate
+                    candidate={{
+                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                      firstname: 'Prénom',
+                      lastname: 'Nom de famille',
+                      punchline: 'Changons le monde !',
+                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                      social_url: '#',
+                    }}
+                    voted={voted}
+                    voteForMe={() => console.log("Vote !!!")}
+                  />
+                  </Grid.Column>
+                  <Grid.Column width={5}>
+                  <CardCandidate
+                    candidate={{
+                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                      firstname: 'Prénom',
+                      lastname: 'Nom de famille',
+                      punchline: 'Changons le monde !',
+                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                      social_url: '#',
+                    }}
+                    voted={voted}
+                    voteForMe={() => console.log("Vote !!!")}
+                  />
+                  </Grid.Column>
+                  <Grid.Column width={5}>
+                  <CardCandidate
+                    candidate={{
+                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                      firstname: 'Prénom',
+                      lastname: 'Nom de famille',
+                      punchline: 'Changons le monde !',
+                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                      social_url: '#',
+                    }}
+                    voted={voted}
+                    voteForMe={() => console.log("Vote !!!")}
+                  />
+                  </Grid.Column>
+                  </Grid>
                 </Container>
               </Grid.Column>
             </Grid>
