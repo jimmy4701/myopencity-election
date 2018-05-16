@@ -11,11 +11,8 @@ import Navbar from '/imports/components/navigation/Navbar';
 
 export class Landing extends TrackerReact(Component){
 
-  constructor(props){
-    super(props)
-    this.state = {
-      my_candidates: [],
-    }
+  state = {
+    my_candidates: []
   }
 
   toggleVote = candidate => {
@@ -36,8 +33,6 @@ export class Landing extends TrackerReact(Component){
     }
   }
 
-  handleContextRef = contextRef => this.setState({ contextRef })
-
   render(){
 
     const {consults, global_configuration, loading} = this.props
@@ -53,18 +48,10 @@ export class Landing extends TrackerReact(Component){
     } = global_configuration
 
     if(!loading){
-      const { my_candidates, contextRef } = this.state;
+      const { my_candidates } = this.state
       return(
-        <div ref={this.handleContextRef}>
+        <div>
         <Grid stackable centered className="landing-page">   
-          <Grid.Column width={16}>
-            { Meteor.isClient ? (
-              // <Sticky context={contextRef} >
-              //   <Navbar votes={my_candidates.length} />
-              // </Sticky>
-              <Navbar votes={my_candidates.length} />
-            ) : '' }
-          </Grid.Column>
           <Grid.Column width={16}>
             <Grid className="landing-header" style={{backgroundImage: "url(" + landing_header_background_url + ")"}} verticalAlign="middle">
               <Grid.Column width={16}>

@@ -3,14 +3,12 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Menu, Container, Sidebar, Icon} from 'semantic-ui-react'
 import NavbarAccountItem from '/imports/components/navigation/NavbarAccountItem'
 import {Link} from 'react-router-dom'
+import styled from 'styled-components'
 
-export default class Navbar extends TrackerReact(Component){
+class Navbar extends TrackerReact(Component){
 
-  constructor(props){
-    super(props)
-    this.state = {
-      open_sidebar: false
-    }
+  state = {
+    open_sidebar: false
   }
 
   componentDidMount(){
@@ -24,15 +22,16 @@ export default class Navbar extends TrackerReact(Component){
 
   render(){
     const {navbar_color, main_title, navbar_consults, navbar_projects} = Session.get('global_configuration')
-    const { votes } = this.props;
+    const { votes, className } = this.props
     return(
-      <div>
+      <div className={className}>
         {this.state.screen_size > 768 ?
           <Menu
             secondary
             className="main-navbar"
             size="massive"
             style={{backgroundColor: navbar_color}}
+            {...this.props}
           >
             <Container>
               <Link className="item" to='/'>
@@ -67,3 +66,11 @@ export default class Navbar extends TrackerReact(Component){
     )
   }
 }
+
+export default styled(Navbar)`
+  position: fixed;
+  width: 100vw;
+  z-index: 999;
+`
+
+

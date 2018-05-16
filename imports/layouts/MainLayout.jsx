@@ -88,6 +88,7 @@ export class MainLayout extends TrackerReact(Component) {
               <meta name="robots" content="noindex" />
               : ''}
           </Helmet>
+          { Meteor.isClient && <Navbar/> }
           <Sidebar.Pushable>
             <Sidebar as={Menu} animation='push' width='thin' visible={Session.get('open_sidebar')} className="main-sidebar" icon='labeled' vertical inverted>
               <Menu.Item name='consultations' onClick={(e) => { this.go('/', e) }}>
@@ -114,6 +115,7 @@ export class MainLayout extends TrackerReact(Component) {
               }
             </Sidebar>
             <Sidebar.Pusher>
+            { Meteor.isClient && <Navbar/> }
               <Grid>
                 <Grid.Column width={16}>
                   <main className="main-container">
