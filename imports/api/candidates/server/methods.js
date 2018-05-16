@@ -31,7 +31,7 @@ Meteor.methods({
       if(!candidate){
         throw new Meteor.Error('500', "Candidat inexistant")
       }
-      Candidates.update({_id: candidates_id}, {$set: {active: !candidate.active}})
+      Candidates.update({_id: candidate_id}, {$set: {active: !candidate.active}})
     }
   },
   'candidates.toggle_votable'(candidate_id){
@@ -42,7 +42,7 @@ Meteor.methods({
       if(!candidate){
         throw new Meteor.Error('500', "Candidat inexistant")
       }
-      Candidates.update({_id: candidates_id}, {$set: {votable: !candidate.votable}})
+      Candidates.update({_id: candidate_id}, {$set: {votable: !candidate.votable}})
     }
   }
 })

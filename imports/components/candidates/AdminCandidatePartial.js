@@ -6,10 +6,10 @@ export default class AdminCandidatePartial extends Component {
         display_menu: false
     }
 
-    toggleState = (e, {name, value}) => this.setState({[name]: value})
+    toggleState = (e, {name}) => this.setState({[name]: !this.state[name]})
 
-    toggleVotes = () => {
-        Meteor.call('candidates.toggle_vote', this.props.candidate._id , (error, result) => {
+    toggleVotable = () => {
+        Meteor.call('candidates.toggle_votable', this.props.candidate._id , (error, result) => {
             if(error){
                 console.log('Erreur', error.message)
                 Bert.alert({
@@ -62,11 +62,11 @@ export default class AdminCandidatePartial extends Component {
                     </Card.Meta>
                 </Card.Content>
                 <Card.Content extra>
-                    <Button onClick={this.toggleState} name="display_menu">{display_menu ? "Gérer" : "Annuler"}</Button>
+                    <Button onClick={this.toggleState} name="display_menu">{display_menu ? "Annuler" : "Gérer"}</Button>
                     {display_menu &&
                         [
                             <Button positive={!candidate.active} negative={candidate.active} onClick={this.toggleActive}>{candidate.active ? "Désactiver" : "Activer"}</Button>,
-                            <Button positive={!candidate.votable} negative={candidate.votable} onClick={this.toggleVotes}>{candidate.votable ? "Bloquer votes" : "Activer votes"}</Button>,
+                            <Button positive={!candidate.votable} negative={candidate.votable} onClick={this.toggleVotable}>{candidate.votable ? "Bloquer votes" : "Activer votes"}</Button>,
                             <Button negative onClick={this.remove}>Supprimer</Button>
                         ]
                     }

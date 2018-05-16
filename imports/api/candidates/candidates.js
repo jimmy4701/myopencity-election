@@ -31,7 +31,7 @@ const CandidateSchema = new SimpleSchema({
         type: Boolean,
         defaultValue: true
       },
-    votables: {
+    votable: {
       type: Boolean,
       defaultValue: true
     },
