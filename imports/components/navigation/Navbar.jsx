@@ -22,7 +22,8 @@ class Navbar extends TrackerReact(Component){
 
   render(){
     const {navbar_color, main_title, navbar_consults, navbar_projects} = Session.get('global_configuration')
-    const { votes, className } = this.props
+    const { className } = this.props
+    const votes = Meteor.isClient && Session.get('votes')
     return(
       <div className={className}>
         {this.state.screen_size > 768 ?

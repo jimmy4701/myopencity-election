@@ -11,9 +11,9 @@ import _ from 'lodash';
       lastname,
       punchline,
       bio,
-      social_url,
+      social_url
     },
-    voted,
+    voted: Boolean,
     voteForMe: functionCallback,
 */
 
@@ -23,6 +23,8 @@ class CardCandidate extends Component {
   }
 
   handleDisplay = (value) => this.setState({display: value})
+
+  voteForMe = () => this.props.voteForMe(this.props.candidate._id)
 
   render = () => {
     const { display } = this.state;
@@ -41,7 +43,7 @@ class CardCandidate extends Component {
                 <p>{candidate.firstname}</p>
               </div>
               <div
-                onClick={voteForMe}
+                onClick={this.voteForMe}
               >Voter
               </div>
               <p>{candidate.punchline}</p>
