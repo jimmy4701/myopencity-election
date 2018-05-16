@@ -46,6 +46,27 @@ export default class AdminCandidatePartial extends Component {
         })
     }
 
+    edit = () => this.props.onEditClick(this.props.candidate)
+
+    remove = () => {
+        Meteor.call('candidates.remove', this.props.candidate._id , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                Bert.alert({
+                    title: 'Erreur lors de la suppression',
+                    style: 'growl-bottom-left',
+                    type: 'danger'
+                })
+            }else{
+                Bert.alert({
+                    title: 'Candidat supprimé',
+                    style: 'growl-bottom-left',
+                    type: 'success'
+                })
+            }
+        })
+    }
+
     render(){
         const {candidate} = this.props
         const {display_menu} = this.state
@@ -67,6 +88,7 @@ export default class AdminCandidatePartial extends Component {
                         [
                             <Button positive={!candidate.active} negative={candidate.active} onClick={this.toggleActive}>{candidate.active ? "Désactiver" : "Activer"}</Button>,
                             <Button positive={!candidate.votable} negative={candidate.votable} onClick={this.toggleVotable}>{candidate.votable ? "Bloquer votes" : "Activer votes"}</Button>,
+                            <Button onClick={this.edit}>Modifier</Button>,
                             <Button negative onClick={this.remove}>Supprimer</Button>
                         ]
                     }

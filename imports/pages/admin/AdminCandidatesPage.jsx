@@ -14,6 +14,8 @@ class AdminCandidatesPage extends Component {
 
     toggleState = (e, {name}) => this.setState({[name]: !this.state[name]})
 
+    resetEditing = () => this.setState({editing_candidate: null, display_form: false})
+
     render(){
         const {loading, candidates} = this.props
         const {editing_candidate, display_form} = this.state
@@ -30,15 +32,21 @@ class AdminCandidatesPage extends Component {
                     {display_form ?
                         <Grid.Column width={16}>
                             <Container>
-                                <CandidateForm candidate={editing_candidate} />
+                                <CandidateForm candidate={editing_candidate} onSubmitForm={this.resetEditing} />
                             </Container>
                         </Grid.Column>
                     :
                         <Grid.Column width={16}>
                             <Container>
-                                {candidates.map(candidate => {
-                                    return <AdminCandidatePartial candidate={candidate} onEditClick={this.editCandidate} />
-                                })}
+                                <Grid stackable>
+                                    {candidates.map(candidate => {
+                                        return(
+                                            <Grid.Column width={4} key={candidate._id}>
+                                                <AdminCandidatePartial candidate={candidate} onEditClick={this.editCandidate} />
+                                            </Grid.Column>
+                                        ) 
+                                    })}
+                                </Grid>
                             </Container>
                         </Grid.Column>
                     }

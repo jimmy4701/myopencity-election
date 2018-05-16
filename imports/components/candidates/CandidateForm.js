@@ -24,13 +24,16 @@ export default class CandidateForm extends Component {
                     style: 'growl-bottom-left',
                     type: 'success'
                 })
+                if(this.props.onSubmitForm){
+                    this.props.onSubmitForm()
+                }
             }
         })
     }
 
-    componentWillReceiveProps(props){
-        if(props.candidate){
-            this.setState({candidate: props.candidate})
+    componentDidMount(){
+        if(this.props.candidate){
+            this.setState({candidate: this.props.candidate})
         }
     }
     

@@ -13,14 +13,14 @@ Meteor.methods({
     if(!Roles.userIsInRole(this.userId, 'admin')){
       throw new Meteor.Error('403', "Vous devez vous connecter")
     }else{
-      Candidates.update({_id: candidates._id}, {$set: candidates})
+      Candidates.update({_id: candidate._id}, {$set: candidate})
     }
   },
   'candidates.remove'(candidate_id){
     if(!Roles.userIsInRole(this.userId, 'admin')){
       throw new Meteor.Error('403', "Vous devez vous connecter")
     }else{
-      Candidates.remove({_id: candidates_id})
+      Candidates.remove({_id: candidate_id})
     }
   },
   'candidates.toggle_active'(candidate_id){
