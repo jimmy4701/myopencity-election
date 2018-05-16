@@ -22,10 +22,6 @@ class CardCandidate extends Component {
     display: 'default', // default - bio - photo
   }
 
-  vote = () => {
-    console.log("vote !!");
-  }
-
   handleDisplay = (value) => this.setState({display: value})
 
   render = () => {
@@ -40,8 +36,10 @@ class CardCandidate extends Component {
                 style={{background: `url(${candidate.image_url}) no-repeat center center`}}
                 onClick={() => this.handleDisplay('photo')}
               />
-              <h3>{candidate.lastname}</h3>
-              <p>{candidate.firstname}</p>
+              <div className="identity">
+                <h3>{candidate.lastname}</h3>
+                <p>{candidate.firstname}</p>
+              </div>
               <div
                 onClick={voteForMe}
               >Voter
@@ -71,18 +69,26 @@ class CardCandidate extends Component {
 
 export default styled(CardCandidate)`
     background-color: #2699FB;
-    max-width: 35em;
+    width: 30em;
     margin: auto;
     padding: 2em;
-    border: 15px solid white;
+    border: 15px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
+    border-top-left-radius: 5em;
     > div .avatar {
-        position: relative;
-        bottom: 4.5em;
-        right: 4em; 
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        border: 15px solid white;
-        background-size: cover !important;
+      position: relative;
+      bottom: 4.5em;
+      right: 4em; 
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 7px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
+      background-size: cover !important;
+    }
+    > div .identity {
+      border: 1px solid red;
+      width: 13em;
+      position: absolute;
+      top: 3em;
+      right: 3em;
     }
 `;

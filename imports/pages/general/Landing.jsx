@@ -1,27 +1,46 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Grid, Header, Container, Loader, Image, Button} from 'semantic-ui-react'
+import {Grid, Header, Container, Loader, Image, Button, GridColumn, Sticky} from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Consults} from '/imports/api/consults/consults'
 import {Projects} from '/imports/api/projects/projects'
 import {Configuration} from '/imports/api/configuration/configuration'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import CardCandidate from '/imports/components/candidates/CardCandidate';
+import Navbar from '/imports/components/navigation/Navbar';
 
 export class Landing extends TrackerReact(Component){
 
   constructor(props){
     super(props)
     this.state = {
-      voted: false,
+      my_candidates: [],
     }
   }
 
-  toggleVote = () => this.setState({voted: !this.state.voted});
+  toggleVote = candidate => {
+    const { my_candidates } = this.state;
+    if (my_candidates.find(v => v === candidate) !== undefined) {
+      this.setState({my_candidates: my_candidates.filter(v => v !== candidate)});
+    } else {
+      if(my_candidates.length >= 10){
+        Bert.alert({
+          title: "Vous ne pouvez voter que pour 10 candidats",
+          type: "danger",
+          style: "growl-bottom-left",
+        })
+      } else {
+        my_candidates.push(candidate);
+        this.setState({my_candidates});
+      }
+    }
+  }
+
+  handleContextRef = contextRef => this.setState({ contextRef })
 
   render(){
 
-    const {consults, projects, global_configuration, loading} = this.props
+    const {consults, global_configuration, loading} = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -34,9 +53,18 @@ export class Landing extends TrackerReact(Component){
     } = global_configuration
 
     if(!loading){
-      const { voted } = this.state;
+      const { my_candidates, contextRef } = this.state;
       return(
-        <Grid stackable centered className="landing-page">
+        <div ref={this.handleContextRef}>
+        <Grid stackable centered className="landing-page">   
+          <Grid.Column width={16}>
+            { Meteor.isClient ? (
+              // <Sticky context={contextRef} >
+              //   <Navbar votes={my_candidates.length} />
+              // </Sticky>
+              <Navbar votes={my_candidates.length} />
+            ) : '' }
+          </Grid.Column>
           <Grid.Column width={16}>
             <Grid className="landing-header" style={{backgroundImage: "url(" + landing_header_background_url + ")"}} verticalAlign="middle">
               <Grid.Column width={16}>
@@ -45,60 +73,72 @@ export class Landing extends TrackerReact(Component){
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16} className="center-align landing-part" verticalAlign="middle">
+          <Grid.Column
+            width={16}
+            className="center-align landing-part"
+            verticalAlign="middle"
+            style={{paddingTop: '0px'}}
+          >
             <Grid verticalAlign="middle" stackable>
-              <Grid.Column width={16} className="center-align landing-title-container">
-                <div className="landing-back-title">{main_title}</div>
-                <Header as="h2">Qu'est-ce que c'est ?</Header>
-              </Grid.Column>
               <Grid.Column width={16}>
-                <Container>
-                  <div dangerouslySetInnerHTML={{__html: landing_explain_text }}></div>
-                  <Grid stackable centered >
-                  <Grid.Column width={5}>
-                  <CardCandidate
-                    candidate={{
-                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                      firstname: 'Prénom',
-                      lastname: 'Nom de famille',
-                      punchline: 'Changons le monde !',
-                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                      social_url: '#',
-                    }}
-                    voted={voted}
-                    voteForMe={() => console.log("Vote !!!")}
-                  />
-                  </Grid.Column>
-                  <Grid.Column width={5}>
-                  <CardCandidate
-                    candidate={{
-                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                      firstname: 'Prénom',
-                      lastname: 'Nom de famille',
-                      punchline: 'Changons le monde !',
-                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                      social_url: '#',
-                    }}
-                    voted={voted}
-                    voteForMe={() => console.log("Vote !!!")}
-                  />
-                  </Grid.Column>
-                  <Grid.Column width={5}>
-                  <CardCandidate
-                    candidate={{
-                      image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                      firstname: 'Prénom',
-                      lastname: 'Nom de famille',
-                      punchline: 'Changons le monde !',
-                      bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                      social_url: '#',
-                    }}
-                    voted={voted}
-                    voteForMe={() => console.log("Vote !!!")}
-                  />
-                  </Grid.Column>
-                  </Grid>
-                </Container>
+                <div
+                  style={{
+                    backgroundColor: '#2699FB',
+                    padding: '2em',
+                    marginBottom: '4em',
+                  }}
+                >
+                  <Container>
+                    <div dangerouslySetInnerHTML={{__html: landing_explain_text }}></div>
+                  </Container>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around',
+                    alignItems: 'baseline',
+                    alignContent: 'stretch',
+                  }}
+                >
+                <CardCandidate
+                  candidate={{
+                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                    firstname: 'Prénom',
+                    lastname: 'Nom de famille',
+                    punchline: 'Changons le monde !',
+                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                    social_url: '#',
+                  }}
+                  voted={my_candidates.find(v => v === 1) !== undefined}
+                  voteForMe={() => this.toggleVote(1)}
+                />
+                <CardCandidate
+                  candidate={{
+                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                    firstname: 'Prénom',
+                    lastname: 'Nom de famille',
+                    punchline: 'Changons le monde !',
+                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                    social_url: '#',
+                  }}
+                  voted={my_candidates.find(v => v === 2) !== undefined}
+                  voteForMe={() => this.toggleVote(2)}
+                />
+                <CardCandidate
+                  candidate={{
+                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
+                    firstname: 'Prénom',
+                    lastname: 'Nom de famille',
+                    punchline: 'Changons le monde !',
+                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
+                    social_url: '#',
+                  }}
+                  voted={my_candidates.find(v => v === 3) !== undefined}
+                  voteForMe={() => this.toggleVote(3)}
+                />
+                </div>
               </Grid.Column>
             </Grid>
           </Grid.Column>
@@ -127,32 +167,8 @@ export class Landing extends TrackerReact(Component){
                 })}
               </Grid.Column>
             : ''}
-            {projects.length > 0 ?
-                <Grid.Column width={16} className="center-align landing-title-container">
-                  <div className="landing-back-title">PROPOSITIONS</div>
-                  <Header as="h2">Les projets proposés du moment</Header>
-                </Grid.Column>
-            : ''}
-            {projects.length > 0 ?
-                <Grid.Column width={16} className="landing-consults-part" style={{backgroundColor: landing_consults_background_color}}>
-                  {projects.map((project, index) => {
-                    return (
-                      <Grid verticalAlign="middle background-img" style={{minHeight: "20em", backgroundImage: "url(" + project.image_url + ")"}} stackable>
-                        <Grid.Column width={16} className="center-align landing-consult-container" >
-                          <Container className="landing-consult-text">
-                            <Header as="h2" style={{color: "white"}}>{project.title}</Header>
-                            <p>{project.description}</p>
-                            <Link to={"/projects/" + project.shorten_url}>
-                              <Button>Voir la proposition</Button>
-                            </Link>
-                          </Container>
-                        </Grid.Column>
-                      </Grid>
-                    )
-                  })}
-                </Grid.Column>
-              : ''}
           </Grid>
+          </div>
         )
     }else{
       return <Loader className="inline-block">Chargement de la page</Loader>
@@ -162,16 +178,13 @@ export class Landing extends TrackerReact(Component){
 
 export default LandingContainer = createContainer(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
-  const landingProjectsPublication = Meteor.isClient && Meteor.subscribe('projects.landing')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !landingProjectsPublication.ready() || !globalConfigurationPublication.ready())
+  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready())
   const consults = Consults.find({landing_display: true}).fetch()
-  const projects = Projects.find({landing_display: true}).fetch()
   const global_configuration = Configuration.findOne()
   return {
     loading,
     consults,
-    projects,
     global_configuration
   }
 }, Landing)

@@ -115,9 +115,6 @@ export class MainLayout extends TrackerReact(Component) {
             </Sidebar>
             <Sidebar.Pusher>
               <Grid>
-                <Grid.Column width={16} className="navbar-container">
-                  <Navbar />
-                </Grid.Column>
                 <Grid.Column width={16}>
                   <main className="main-container">
                     <Switch>

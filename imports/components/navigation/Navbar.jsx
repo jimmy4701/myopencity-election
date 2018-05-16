@@ -24,11 +24,16 @@ export default class Navbar extends TrackerReact(Component){
 
   render(){
     const {navbar_color, main_title, navbar_consults, navbar_projects} = Session.get('global_configuration')
-
+    const { votes } = this.props;
     return(
       <div>
         {this.state.screen_size > 768 ?
-          <Menu secondary className="main-navbar" size="massive" style={{backgroundColor: navbar_color}}>
+          <Menu
+            secondary
+            className="main-navbar"
+            size="massive"
+            style={{backgroundColor: navbar_color}}
+          >
             <Container>
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
@@ -46,6 +51,7 @@ export default class Navbar extends TrackerReact(Component){
                 </div>
               </Link>
               <Menu.Menu position='right' className="item">
+                {votes !== undefined ? `votes restants : ${10 - votes}/10` : ''}
                 <NavbarAccountItem />
               </Menu.Menu>
             </Container>

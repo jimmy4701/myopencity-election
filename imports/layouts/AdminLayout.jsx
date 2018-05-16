@@ -86,26 +86,6 @@ export class AdminLayout extends TrackerReact(Component) {
                 <Icon name='comments' />
                 Consultations
               </Menu.Item>
-              <Menu.Item onClick={() => {this.go('/admin/projects')}} name='projects'>
-                <Icon name='lightbulb' />
-                Projets
-              </Menu.Item>
-              <Menu.Item onClick={() => {this.go('/admin/alternatives')}} name='projects'>
-                <Icon name='check circle' />
-                Alternatives
-              </Menu.Item>
-              {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-                <Menu.Item onClick={() => {this.go('/admin/api_authorizations')}} name='api_authorizations'>
-                  <Icon name='key' />
-                  Autorisations API
-                </Menu.Item>
-              : ''}
-              {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-                <Menu.Item onClick={() => {this.go('/admin/external_opencities')}} name='external_opencities'>
-                  <Icon name='exchange' />
-                  Opencities connectés
-                </Menu.Item>
-              : ''}
             </Sidebar>
             <Sidebar.Pusher>
               <Grid stackable>
