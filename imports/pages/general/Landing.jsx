@@ -17,9 +17,11 @@ export class Landing extends TrackerReact(Component){
   }
 
   toggleVote = candidate_id => {
-    const { my_candidates } = this.state
+    let { my_candidates } = this.state
     if (my_candidates.find(v => v === candidate_id) !== undefined) {
-      this.setState({my_candidates: my_candidates.filter(v => v !== candidate_id)})
+      my_candidates = my_candidates.filter(v => v !== candidate_id)
+      this.setState({my_candidates})
+      Session.set("votes", my_candidates.length)
     } else {
       if(my_candidates.length >= 10){
         Bert.alert({
@@ -30,8 +32,10 @@ export class Landing extends TrackerReact(Component){
       } else {
         my_candidates.push(candidate_id)
         this.setState({my_candidates})
+        Session.set("votes", my_candidates.length)
       }
     }
+    
   }
 
   render(){

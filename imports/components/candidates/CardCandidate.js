@@ -24,6 +24,8 @@ class CardCandidate extends Component {
 
   handleDisplay = (value) => this.setState({display: value})
 
+  voteForMe = () => this.props.voteForMe(this.props.candidate._id)
+
   render = () => {
     const { display } = this.state;
     const { candidate, className, voteForMe } = this.props;
@@ -41,7 +43,7 @@ class CardCandidate extends Component {
                 <p>{candidate.firstname}</p>
               </div>
               <div
-                onClick={voteForMe}
+                onClick={this.voteForMe}
               >Voter
               </div>
               <p>{candidate.punchline}</p>
