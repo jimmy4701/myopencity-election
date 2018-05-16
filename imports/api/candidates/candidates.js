@@ -14,12 +14,14 @@ const CandidateSchema = new SimpleSchema({
     },
     punchline: {
       type: String,
+      optional: true
     },
     bio: {
       type: String,
     },
     social_url: {
-      type: String
+      type: String,
+      optional: true
     },
     votes: {
       type: Number,

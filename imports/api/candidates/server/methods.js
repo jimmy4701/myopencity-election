@@ -22,5 +22,27 @@ Meteor.methods({
     }else{
       Candidates.remove({_id: candidates_id})
     }
+  },
+  'candidates.toggle_active'(candidate_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else{
+      const candidate = Candidates.findOne({_id: candidate_id})
+      if(!candidate){
+        throw new Meteor.Error('500', "Candidat inexistant")
+      }
+      Candidates.update({_id: candidates_id}, {$set: {active: !candidate.active}})
+    }
+  },
+  'candidates.toggle_votable'(candidate_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else{
+      const candidate = Candidates.findOne({_id: candidate_id})
+      if(!candidate){
+        throw new Meteor.Error('500', "Candidat inexistant")
+      }
+      Candidates.update({_id: candidates_id}, {$set: {votable: !candidate.votable}})
+    }
   }
 })
