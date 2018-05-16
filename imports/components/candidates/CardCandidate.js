@@ -11,9 +11,9 @@ import _ from 'lodash';
       lastname,
       punchline,
       bio,
-      social_url,
+      social_url
     },
-    voted,
+    voted: Boolean,
     voteForMe: functionCallback,
 */
 

@@ -11,7 +11,7 @@ import '/imports/api/accounts/server/publication'
 import '/imports/api/consults/server/methods'
 import '/imports/api/consults/server/publication'
 import '/imports/api/consult_parts/server/methods'
-import '/imports/api/consult_parts/server/publication'
+import '/imports/api/consult_parts/server/publication' 
 import '/imports/api/consult_part_votes/server/methods'
 import '/imports/api/consult_part_votes/server/publication'
 import '/imports/api/alternatives/server/methods'
@@ -27,6 +27,8 @@ import '/imports/api/api_authorizations/server/methods'
 import '/imports/api/api_authorizations/server/publication'
 import '/imports/api/external_opencities/server/methods'
 import '/imports/api/external_opencities/server/publication'
+import '/imports/api/candidates/server/methods'
+import '/imports/api/candidates/server/publication'
 
 Meteor.startup(() => {
 

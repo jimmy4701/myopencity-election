@@ -6,8 +6,9 @@ import {Consults} from '/imports/api/consults/consults'
 import {Projects} from '/imports/api/projects/projects'
 import {Configuration} from '/imports/api/configuration/configuration'
 import {Link, withRouter} from 'react-router-dom'
-import CardCandidate from '/imports/components/candidates/CardCandidate';
-import Navbar from '/imports/components/navigation/Navbar';
+import {Candidates} from '/imports/api/candidates/candidates'
+import CardCandidate from '/imports/components/candidates/CardCandidate'
+import Navbar from '/imports/components/navigation/Navbar'
 
 export class Landing extends TrackerReact(Component){
 
@@ -15,10 +16,10 @@ export class Landing extends TrackerReact(Component){
     my_candidates: []
   }
 
-  toggleVote = candidate => {
-    const { my_candidates } = this.state;
-    if (my_candidates.find(v => v === candidate) !== undefined) {
-      this.setState({my_candidates: my_candidates.filter(v => v !== candidate)});
+  toggleVote = candidate_id => {
+    const { my_candidates } = this.state
+    if (my_candidates.find(v => v === candidate_id) !== undefined) {
+      this.setState({my_candidates: my_candidates.filter(v => v !== candidate_id)})
     } else {
       if(my_candidates.length >= 10){
         Bert.alert({
@@ -27,15 +28,16 @@ export class Landing extends TrackerReact(Component){
           style: "growl-bottom-left",
         })
       } else {
-        my_candidates.push(candidate);
-        this.setState({my_candidates});
+        my_candidates.push(candidate_id)
+        this.setState({my_candidates})
       }
     }
   }
 
   render(){
-
-    const {consults, global_configuration, loading} = this.props
+    
+    const { my_candidates } = this.state
+    const {consults, global_configuration, loading, candidates} = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -48,7 +50,6 @@ export class Landing extends TrackerReact(Component){
     } = global_configuration
 
     if(!loading){
-      const { my_candidates } = this.state
       return(
         <div>
         <Grid stackable centered className="landing-page">   
@@ -89,42 +90,14 @@ export class Landing extends TrackerReact(Component){
                     alignContent: 'stretch',
                   }}
                 >
-                <CardCandidate
-                  candidate={{
-                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                    firstname: 'Prénom',
-                    lastname: 'Nom de famille',
-                    punchline: 'Changons le monde !',
-                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                    social_url: '#',
-                  }}
-                  voted={my_candidates.find(v => v === 1) !== undefined}
-                  voteForMe={() => this.toggleVote(1)}
-                />
-                <CardCandidate
-                  candidate={{
-                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                    firstname: 'Prénom',
-                    lastname: 'Nom de famille',
-                    punchline: 'Changons le monde !',
-                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                    social_url: '#',
-                  }}
-                  voted={my_candidates.find(v => v === 2) !== undefined}
-                  voteForMe={() => this.toggleVote(2)}
-                />
-                <CardCandidate
-                  candidate={{
-                    image_url: 'https://plateforme.com/wp-content/uploads/2016/09/business-man-avatar-1560x1560.png',
-                    firstname: 'Prénom',
-                    lastname: 'Nom de famille',
-                    punchline: 'Changons le monde !',
-                    bio: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem hic necessitatibus dolorum nisi nihil, cum quos harum. Incidunt, totam. Ratione accusamus ipsa magni sapiente corrupti! Ducimus, perferendis totam. Atque dolores repudiandae iusto! Omnis consequatur quos eius nostrum ratione temporibus pariatur fugiat similique tenetur accusamus incidunt nemo voluptatibus ducimus, commodi repellat eaque recusandae. Voluptatum, aliquid nihil! Accusamus, laboriosam placeat asperiores, ad exercitationem earum quaerat sint nesciunt repudiandae dignissimos rem doloribus porro ex natus. Nobis beatae magni ducimus cum vero quos ea! Hic aut dolore asperiores quidem provident vel aperiam libero vitae. Mollitia sed aspernatur neque obcaecati debitis soluta repudiandae numquam? Quasi?',
-                    social_url: '#',
-                  }}
-                  voted={my_candidates.find(v => v === 3) !== undefined}
-                  voteForMe={() => this.toggleVote(3)}
-                />
+                {candidates.map(candidate => (
+                  <CardCandidate
+                    candidate={candidate}
+                    voted={my_candidates.find(candidate_id => candidate_id === candidate._id) !== undefined}
+                    voteForMe={this.toggleVote}
+                  />
+                ))}
+                
                 </div>
               </Grid.Column>
             </Grid>
@@ -165,13 +138,16 @@ export class Landing extends TrackerReact(Component){
 
 export default LandingContainer = createContainer(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
+  const candidatesPublication = Meteor.isClient && Meteor.subscribe('candidates.active')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready())
+  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready())
   const consults = Consults.find({landing_display: true}).fetch()
+  const candidates = Candidates.find({active: true}).fetch()
   const global_configuration = Configuration.findOne()
   return {
     loading,
     consults,
+    candidates,
     global_configuration
   }
 }, Landing)
