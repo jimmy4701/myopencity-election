@@ -17,7 +17,7 @@ import _ from 'lodash';
     voteForMe: functionCallback,
 */
 
-class CardCandidate extends Component {
+class CandidatePartial extends Component {
   state = {
     display: 'default', // default - bio - photo
   }
@@ -69,7 +69,7 @@ class CardCandidate extends Component {
   }
 }
 
-export default styled(CardCandidate)`
+export default styled(CandidatePartial)`
     background-color: #2699FB;
     width: 30em;
     margin: auto;

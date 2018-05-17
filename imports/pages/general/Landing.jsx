@@ -7,7 +7,7 @@ import {Projects} from '/imports/api/projects/projects'
 import {Configuration} from '/imports/api/configuration/configuration'
 import {Link, withRouter} from 'react-router-dom'
 import {Candidates} from '/imports/api/candidates/candidates'
-import CardCandidate from '/imports/components/candidates/CardCandidate'
+import CandidatePartial from '/imports/components/candidates/CandidatePartial'
 import Navbar from '/imports/components/navigation/Navbar'
 
 export class Landing extends TrackerReact(Component){
@@ -95,7 +95,7 @@ export class Landing extends TrackerReact(Component){
                   }}
                 >
                 {candidates.map(candidate => (
-                  <CardCandidate
+                  <CandidatePartial
                     candidate={candidate}
                     voted={my_candidates.find(candidate_id => candidate_id === candidate._id) !== undefined}
                     voteForMe={this.toggleVote}
