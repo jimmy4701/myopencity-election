@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'semantic-ui-react';
+import { Image, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -42,16 +42,16 @@ class CandidatePartial extends Component {
                 <h3>{candidate.lastname}</h3>
                 <p>{candidate.firstname}</p>
               </div>
-              <div
+              <Button
                 onClick={this.voteForMe}
               >Voter
-              </div>
+              </Button>
               <p>{candidate.punchline}</p>
               <p>{_.truncate(candidate.bio, {length: 200, separator: '...'})}</p>
-              <div
+              <Button
                 onClick={() => this.handleDisplay('bio')}
               >Voir plus
-              </div>
+              </Button>
             </div>
            ) : display === 'photo' ? (
             <div>

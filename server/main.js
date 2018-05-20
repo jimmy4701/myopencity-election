@@ -29,6 +29,8 @@ import '/imports/api/external_opencities/server/methods'
 import '/imports/api/external_opencities/server/publication'
 import '/imports/api/candidates/server/methods'
 import '/imports/api/candidates/server/publication'
+import '/imports/api/candidates_votes/server/methods'
+import '/imports/api/candidates_votes/server/publication'
 
 Meteor.startup(() => {
 
