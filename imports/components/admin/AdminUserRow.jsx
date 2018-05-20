@@ -11,11 +11,8 @@ export default class AdminUserRow extends TrackerReact(Component){
       - user: Object
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
 
-    }
   }
 
   toggleBlocked(){

@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor'
 import {CandidatesVotes} from '../candidates_votes'
 import {VoteFrauds} from '/imports/api/vote_frauds/vote_frauds'
 import {Candidates} from '/imports/api/candidates/candidates'
+import {AuthorizedEmails} from '/imports/api/authorized_emails/authorized_emails';
 
 import _ from 'lodash';
 
@@ -10,10 +11,19 @@ Meteor.methods({
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter")
     }
+    const user = Meteor.users.findOne({_id: this.userId})
+    const authorized = AuthorizedEmails.findOne({email: user.emails[0].address});
+    if(!authorized) {
+      VoteFrauds.insert({
+        user: this.userId,
+        email: user.emails[0].address,
+        reason: "A tenté de voter sans faire partie des voteurs autorisés"
+      })
+      throw new Meteor.Error('403', "Vous ne faites pas partis des voteurs autorisés")
+    }
     if(candidates.length > 10) {
       throw new Meteor.Error('403', "Vous ne pouvez voter que pour dix candidats")
     }
-    const user = Meteor.users.findOne({_id: this.userId})
     const already_voted = CandidatesVotes.findOne({ $or: [
       {user: this.userId},
       {email: user.emails[0].address}
@@ -22,7 +32,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
-        reason: "A déjà voté"
+        reason: "A tenté de voter deux fois"
       })
       throw new Meteor.Error('403', "Vous avez déjà voté")
     }

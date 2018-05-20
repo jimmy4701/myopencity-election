@@ -13,12 +13,9 @@ export class AdminApiAuthorizationsPage extends Component{
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      editing_authorization: null,
-      display_form: false
-    }
+  state = {
+    editing_authorization: null,
+    display_form: false
   }
 
   onFormSubmitted(auth){
