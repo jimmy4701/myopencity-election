@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Table, Button, Loader, Input } from 'semantic-ui-react';
+import { Grid, Table, Button, Loader, Form, Input } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import 'setimmediate';
 import csv from 'csv'
@@ -63,6 +63,7 @@ class AdminAuthoriezdEmailsPage extends Component {
                     type: 'success',
                     style: 'growl-bottom-left',
                 })
+                this.setState({email: ""})
             }
         })
     }
@@ -90,19 +91,25 @@ class AdminAuthoriezdEmailsPage extends Component {
 
     render() {
         const { authorized_emails, loading } = this.props;
+        const { email } = this.state;
         if ( loading ) {
             return <Loader inline>Chargement de la liste d'email</Loader>
         }
         return (
             <Grid stackable>
                 <Grid.Column width={16} style={{paddingTop: '6em'}}>
-                    <Input
+                    <Form onSubmit={this.addEmail} >
+                    <Form.Group inline>
+                    <Form.Input
                         inline
                         placeholder="Email à ajouter à la liste"
                         name="email"
+                        value={email}
                         onChange={this.update}
                     />
-                    <Button onClick={this.addEmail}>Ajouter</Button>
+                    <Button inline>Ajouter</Button>
+                    </Form.Group>
+                    </Form>
                     <Input
                         inline
                         type="file"

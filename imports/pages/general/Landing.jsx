@@ -96,9 +96,10 @@ export class Landing extends TrackerReact(Component) {
                   >
                     {candidates.map(candidate => (
                       <CandidatePartial
+                        key={candidate._id}
                         candidate={candidate}
-                        voted={my_candidates.find(candidate_id => candidate_id === candidate._id) !== undefined}
-                        voteForMe={this.toggleVote}
+                        voted={my_candidates.find(my_candidate => my_candidate === candidate) !== undefined}
+                        toggleVote={this.toggleVote}
                       />
                     ))}
 

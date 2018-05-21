@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Menu, Container, Sidebar, Icon, Button, Grid, GridColumn, Modal} from 'semantic-ui-react'
+import {Menu, Container, Sidebar, Icon, Button, Grid, GridColumn, Modal, Image} from 'semantic-ui-react'
 import NavbarAccountItem from '/imports/components/navigation/NavbarAccountItem'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
@@ -35,7 +35,7 @@ class Navbar extends TrackerReact(Component){
         style: "growl-bottom-left",
       })
     } else {
-      Meteor.call('candidates_votes.vote', votes, (e) => {
+      Meteor.call('candidates_votes.vote', votes.map(vote => vote._id), (e) => {
         if (e) {
           Bert.alert({
             title: e.message,
@@ -89,7 +89,7 @@ class Navbar extends TrackerReact(Component){
                 </div>
               </Link>
               <Menu.Menu position='right' className="item">
-                {votes !== undefined ? `votes restants : ${10 - votes.length}/10` : ''}
+                {votes ? `votes restants : ${10 - votes.length}/10` : ''}
                 <NavbarAccountItem />
               </Menu.Menu>
             </Container>
@@ -102,7 +102,7 @@ class Navbar extends TrackerReact(Component){
           </Menu>
         }
           </Grid.Column>
-        {votes !== undefined && votes.length &&
+        {((votes && votes.length) || open_modal) &&
           <Grid.Column width={16} style={{marginTop: '3em', backgroundColor: '#0064b9', textAlign: 'center'}}>
             { open_modal && [
               <h3>Confirmer la validation des votes ?</h3>,
@@ -113,7 +113,14 @@ class Navbar extends TrackerReact(Component){
           </Grid.Column>
         }
         </Grid>
-        <Modal basic open={open_modal}>
+        <Modal basic open={open_modal} style={{marginTop: '5em'}}>
+          {votes && votes.map(candidate => (
+            <div key={candidate._id}>
+              <Icon name="close" onClick={() => {Session.set('votes', votes.filter(vote => vote !== candidate ))}}/>
+              <Image avatar src={candidate.image_url}/>
+              {candidate.firstname}
+            </div>
+          ))}
         </Modal>
       </div>
     )

@@ -14,7 +14,7 @@ import _ from 'lodash';
       social_url
     },
     voted: Boolean,
-    voteForMe: functionCallback,
+    toggleVote: functionCallback,
 */
 
 class CandidatePartial extends Component {
@@ -24,11 +24,11 @@ class CandidatePartial extends Component {
 
   handleDisplay = (value) => this.setState({display: value})
 
-  voteForMe = () => this.props.voteForMe(this.props.candidate._id)
+  toggleVote = () => this.props.toggleVote(this.props.candidate)
 
   render = () => {
     const { display } = this.state;
-    const { candidate, className, voteForMe } = this.props;
+    const { candidate, className, voted } = this.props;
     return (
       <div className={className}>
           { display === 'default' ? (
@@ -43,8 +43,8 @@ class CandidatePartial extends Component {
                 <p>{candidate.firstname}</p>
               </div>
               <Button
-                onClick={this.voteForMe}
-              >Voter
+                onClick={this.toggleVote}
+              >{voted ? 'Annuler' : 'Voter' }
               </Button>
               <p>{candidate.punchline}</p>
               <p>{_.truncate(candidate.bio, {length: 200, separator: '...'})}</p>

@@ -63,6 +63,7 @@ export class MainLayout extends TrackerReact(Component) {
     e.preventDefault()
     this.props.history.push(route)
     Session.set('open_sidebar', false)
+    Session.set('votes', null)
   }
 
   logout = () => {

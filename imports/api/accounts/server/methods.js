@@ -48,6 +48,18 @@ Meteor.methods({
       Meteor.users.update({ _id: this.userId }, { $set: { profile: profile } })
     }
   },
+  'users.toggle_early_voter'(user_id) {
+    if (!Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    if (Roles.userIsInRole(user_id, 'early_voter')) {
+      let user = Meteor.users.findOne({ _id: user_id })
+      user.roles.splice(user.roles.indexOf('early_voter'), 1)
+      Meteor.users.update({ _id: user_id }, user)
+    } else {
+      Roles.addUsersToRoles(user_id, 'early_voter')
+    }
+  },
   'users.toggle_blocked'(user_id) {
     if (!Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
       throw new Meteor.Error('403', "Vous devez être administrateur")
