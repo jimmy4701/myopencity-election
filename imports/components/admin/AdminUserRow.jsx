@@ -11,11 +11,8 @@ export default class AdminUserRow extends TrackerReact(Component){
       - user: Object
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
 
-    }
   }
 
   toggleBlocked(){
@@ -58,10 +55,31 @@ export default class AdminUserRow extends TrackerReact(Component){
     });
   }
 
+  toggleEarlyVoter(){
+    Meteor.call('users.toggle_early_voter', this.props.user._id, (error, result) => {
+      if(error){
+        console.log(error)
+        Bert.alert({
+          title: "Erreur lors de la modification de l'utilisateur",
+          message: error.reason,
+          type: 'danger',
+          style: 'growl-bottom-left',
+        })
+      }else{
+        Bert.alert({
+          title: "Utilisateur modifié",
+          type: 'success',
+          style: 'growl-bottom-left',
+        })
+      }
+    });
+  }
+
   render(){
     const {user} = this.props
     moment.locale('fr')
     const moderator = Roles.userIsInRole(user._id, 'moderator')
+    const early_voter = Roles.userIsInRole(user._id, 'early_voter')
     return(
       <Table.Row>
         <Table.Cell>{user.username}</Table.Cell>
@@ -72,6 +90,7 @@ export default class AdminUserRow extends TrackerReact(Component){
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
             <Button color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>
           : ''}
+          <Button color={early_voter ? "green" : ""} onClick={(e) => {this.toggleEarlyVoter(e)}}>{moderator ? "Voteur anticipé" : "Voteur normal"}</Button>
         </Table.Cell>
       </Table.Row>
     )

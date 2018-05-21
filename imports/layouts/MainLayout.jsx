@@ -63,6 +63,7 @@ export class MainLayout extends TrackerReact(Component) {
     e.preventDefault()
     this.props.history.push(route)
     Session.set('open_sidebar', false)
+    Session.set('votes', null)
   }
 
   logout = () => {
@@ -97,7 +98,7 @@ export class MainLayout extends TrackerReact(Component) {
               {Meteor.userId() ?
                 <span>
                   {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) ?
-                    <Menu.Item floated="bottom" name='admin' onClick={(e) => { this.go('/admin/consults', e) }}>
+                    <Menu.Item floated="bottom" name='admin' onClick={(e) => { this.go('/admin/candidates', e) }}>
                       Admin
                     </Menu.Item>
                     : ''}

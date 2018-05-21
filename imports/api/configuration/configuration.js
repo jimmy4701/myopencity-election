@@ -194,8 +194,11 @@ const ConfigurationSchema = new SimpleSchema({
   cgu: {
     type: String,
     defaultValue: ""
+  },
+  vote_step: {
+    type: String,
+    defaultValue: "close"
   }
-
 })
 
 Configuration.attachSchema(ConfigurationSchema);

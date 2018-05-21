@@ -30,6 +30,7 @@ import AdminExternalApisPage from '/imports/pages/admin/AdminExternalApisPage'
 import AdminAlternativesValidationPage from '/imports/pages/admin/AdminAlternativesValidationPage'
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminCandidatesPage from '/imports/pages/admin/AdminCandidatesPage'
+import AdminAuthorizedEmailsPage from '/imports/pages/admin/AdminAuthorizedEmailsPage'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -85,6 +86,10 @@ export class AdminLayout extends TrackerReact(Component) {
                 <Icon name='users' />
                 Candidates
               </Menu.Item>
+              <Menu.Item onClick={() => {this.go('/admin/authorized_emails')}} name='comments'>
+                <Icon name='at' />
+                Utilisateurs auhorisés
+              </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
               <Grid stackable>
@@ -97,6 +102,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminConfigurationPage }  exact path="/admin/configuration" { ...this.props } />
                       <Admin component={ AdminCandidatesPage }  exact path="/admin/candidates" { ...this.props } />
                       <Admin component={ AdminApiAuthorizationsPage }  exact path="/admin/api_authorizations" { ...this.props } />
+                      <Admin component={ AdminAuthorizedEmailsPage }  exact path="/admin/authorized_emails" { ...this.props } />
                       <Admin component={ AdminExternalApisPage }  exact path="/admin/external_apis" { ...this.props } />
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />
