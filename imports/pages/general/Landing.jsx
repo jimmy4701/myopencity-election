@@ -16,13 +16,14 @@ export class Landing extends TrackerReact(Component) {
     my_candidates: []
   }
 
-  toggleVote = candidate_id => {
-    let { my_candidates } = this.state
-    if (my_candidates.find(v => v === candidate_id) !== undefined) {
-      my_candidates = my_candidates.filter(v => v !== candidate_id)
-      this.setState({ my_candidates })
+  toggleVote = candidate => {
+    let my_candidates = Session.get('votes') || []
+    if (_.find(my_candidates, v => v._id === candidate._id)) {
+      console.log('found in votes')
+      my_candidates = _.filter(my_candidates, v => v._id !== candidate._id)
       Session.set("votes", my_candidates)
     } else {
+      console.log('not found in votes')
       if (my_candidates.length >= 10) {
         Bert.alert({
           title: "Vous ne pouvez voter que pour 10 candidats",
@@ -30,8 +31,7 @@ export class Landing extends TrackerReact(Component) {
           style: "growl-bottom-left",
         })
       } else {
-        my_candidates.push(candidate_id)
-        this.setState({ my_candidates })
+        my_candidates.push(candidate)
         Session.set("votes", my_candidates)
       }
     }
@@ -39,9 +39,7 @@ export class Landing extends TrackerReact(Component) {
   }
 
   render() {
-
-    const { my_candidates } = this.state
-    const { consults, global_configuration, loading, candidates } = this.props
+    const { consults, global_configuration, loading, candidates, my_candidates } = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -98,7 +96,7 @@ export class Landing extends TrackerReact(Component) {
                       <CandidatePartial
                         key={candidate._id}
                         candidate={candidate}
-                        voted={my_candidates.find(my_candidate => my_candidate === candidate) !== undefined}
+                        voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
                         toggleVote={this.toggleVote}
                       />
                     ))}
@@ -107,31 +105,6 @@ export class Landing extends TrackerReact(Component) {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            {consults.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container">
-                <div className="landing-back-title">CONSULTATIONS</div>
-                <Header as="h2">Les consultations du moment</Header>
-              </Grid.Column>
-              : ''}
-            {consults.length > 0 ?
-              <Grid.Column width={16} className="landing-consults-part" style={{ backgroundColor: landing_consults_background_color }}>
-                {consults.map((consult, index) => {
-                  return (
-                    <Grid verticalAlign="middle background-img" style={{ minHeight: "20em", backgroundImage: "url(" + consult.image_url + ")" }} stackable>
-                      <Grid.Column width={16} className="center-align landing-consult-container" >
-                        <Container className="landing-consult-text">
-                          <Header as="h2" style={{ color: "white" }}>{consult.title}</Header>
-                          <p>{consult.description}</p>
-                          <Link to={"/consults/" + consult.url_shorten}>
-                            <Button>Voir la consultation</Button>
-                          </Link>
-                        </Container>
-                      </Grid.Column>
-                    </Grid>
-                  )
-                })}
-              </Grid.Column>
-              : ''}
           </Grid>
         </div>
       )
@@ -149,10 +122,12 @@ export default LandingContainer = createContainer(() => {
   const consults = Consults.find({ landing_display: true }).fetch()
   const candidates = Candidates.find({ active: true }).fetch()
   const global_configuration = Configuration.findOne()
+  const my_candidates = Meteor.isClient && Session.get('votes')
   return {
     loading,
     consults,
     candidates,
-    global_configuration
+    global_configuration,
+    my_candidates
   }
 }, Landing)
