@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Image, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import { Image, Button } from 'semantic-ui-react'
+import styled from 'styled-components'
+import _ from 'lodash'
 
 /*
   @PROPS:
@@ -27,8 +27,8 @@ class CandidatePartial extends Component {
   toggleVote = () => this.props.toggleVote(this.props.candidate)
 
   render = () => {
-    const { display } = this.state;
-    const { candidate, className, voted } = this.props;
+    const { display } = this.state
+    const { candidate, className, voted } = this.props
     return (
       <div className={className}>
           { display === 'default' ? (
