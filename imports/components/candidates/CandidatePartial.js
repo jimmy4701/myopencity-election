@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Button } from 'semantic-ui-react'
+import { Image, Button, Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
 import _ from 'lodash'
 
@@ -44,6 +44,7 @@ class CandidatePartial extends Component {
               </div>
               <Button
                 onClick={this.toggleVote}
+                className="vote-button"
               >{voted ? 'Annuler' : 'Voter' }
               </Button>
               <p>{candidate.punchline}</p>
@@ -54,13 +55,12 @@ class CandidatePartial extends Component {
               </Button>
             </div>
            ) : display === 'photo' ? (
-            <div>
-              <div onClick={() => this.handleDisplay('default')}>X</div>
-              <Image src={candidate.image_url} size="small" />
+            <div className="photo-container">
+              <Icon onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon"/>
             </div>
           ) : display === 'bio' ? (
             <div>
-              <div onClick={() => this.handleDisplay('default')} >X</div>
+              <Icon onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon" />
               {candidate.bio}
             </div>
           ):''}
@@ -76,6 +76,7 @@ export default styled(CandidatePartial)`
     padding: 2em;
     border: 15px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
     border-top-left-radius: 5em;
+    height: 37em;
     > div .avatar {
       position: relative;
       bottom: 4.5em;
@@ -87,10 +88,44 @@ export default styled(CandidatePartial)`
       background-size: cover !important;
     }
     > div .identity {
-      border: 1px solid red;
       width: 13em;
-      position: absolute;
-      top: 3em;
-      right: 3em;
+      position: relative;
+      top: -7em;
+      right: -5.4em;
+      text-transform: uppercase;
+      font-size: 2em;
+      color: white;
+      text-align: left;
+      > h3 {
+        margin-bottom: 0;
+        font-size: 
+      }
+    }
+    > div .vote-button {
+      background-color: white;
+      color: #2699FB;
+      border-radius: 0 1em !important;
+      font-size: 1.5em;
+      width: 9em;
+      position: relative;
+      top: -8em;
+      right: -4em;
+      padding: 0.5em;
+    }
+    > .photo-container {
+      background-image: url('${({candidate}) => candidate.image_url}');
+      height: 85%;
+      background-repeat: no-repeat;
+      background-color: red;
+      margin-top: 1em;
+      background-size: cover;
+      background-position: center;
+
+      > .remove-icon {
+        position: relative;
+        top: -0.3em;
+        right: 3.8em;
+        font-size: 3em;
+      }
     }
 `;
