@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import _ from 'lodash'
-const mailer = require('mailer')
+import mailer from 'mailer'
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
 import EmailResetPassword from '/imports/components/emails/EmailResetPassword'
 import React from "react"
