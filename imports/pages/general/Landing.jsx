@@ -98,7 +98,7 @@ export class Landing extends TrackerReact(Component) {
                           info
                           centered
                           style={{textAlign: 'center'}}
-                        >Votre vote à bien été pris en compte !
+                        >Votre vote a bien été pris en compte !
                         </Message>
                       </Grid.Column>
                     </Grid>

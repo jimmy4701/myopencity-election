@@ -43,14 +43,29 @@ export default class ConfigurationGeneralForm extends Component {
         })
     }
 
-    handleConfigurationChange = (e, {name, value}) => this.setState({ configuration: {[name]: value} });
-
-    handleConfigurationToggle = (e, {name, checked}) => this.setState({configuration: {[name]: checked}});
+    handleConfigurationChange = (e, {name, value}) => {
+        let { configuration } = this.state;
+        configuration[name] = value;
+        this.setState({configuration})
+    };
 
     toggleConfiguration = (attr) => {
         let { configuration } = this.state
         configuration[attr] = !configuration[attr]
         this.setState({ configuration })
+    }
+
+    showResults = (e) => {
+        e.preventDefault();
+        Meteor.call('configuration.show_results')
+        let { configuration } = this.state
+        configuration.vote_step = "close"
+        this.setState({ configuration })
+        Bert.alert({
+            title: "L'Animation est lancée !",
+            type: 'success',
+            style: 'growl-bottom-left',
+        })
     }
 
     render() {
@@ -59,11 +74,15 @@ export default class ConfigurationGeneralForm extends Component {
         return (
             <Grid stackable {...this.props}>
                 <Grid.Column width={16}>
+                    <Button
+                        negative
+                        onClick={this.showResults}
+                    >LANCER LE PROCESS DE RESULTAT
+                    </Button>
                     <Form onSubmit={this.submit_form}>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Configuration des votes</Divider>
                         <Form.Group widths="equal">
-                            <Form.Dropdown
-                                selection
+                            <Form.Select
                                 compact
                                 label="Changer l'accès aux votes"
                                 name="vote_step"
@@ -74,12 +93,6 @@ export default class ConfigurationGeneralForm extends Component {
                                     { key: 3, text: 'Votes clos', value: 'close' },
                                   ]}
                                 onChange={this.handleConfigurationChange}
-                            />
-                            <Form.Checkbox
-                                label="Afficher les résultats"
-                                name="show_results"
-                                checked={configuration.show_results}
-                                onChange={this.handleConfigurationToggle}
                             />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes généraux</Divider>
