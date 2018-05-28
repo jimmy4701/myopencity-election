@@ -202,6 +202,10 @@ const ConfigurationSchema = new SimpleSchema({
   show_results: {
     type: Boolean,
     defaultValue: false
+  },
+  animate: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 
