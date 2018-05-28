@@ -46,7 +46,7 @@ export class Landing extends TrackerReact(Component) {
       global_configuration,
       loading,
       candidates,
-      candidateVote,
+      has_voted,
       my_candidates
     } = this.props
     const {
@@ -102,7 +102,6 @@ export class Landing extends TrackerReact(Component) {
                       alignContent: 'stretch',
                     }}
                     >
-                      {candidateVote && <Redirect to='/results' />}
                       {candidates.map(candidate => (
                         <CandidatePartial
                           key={candidate._id}
@@ -129,19 +128,19 @@ export class Landing extends TrackerReact(Component) {
 export default LandingContainer = createContainer(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
   const candidatesPublication = Meteor.isClient && Meteor.subscribe('candidates.active')
-  const candidatesVotesPublication = Meteor.isClient && Meteor.subscribe('candidates_votes.me')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
+  const candidatesVotesPublication = Meteor.isClient && Meteor.subscribe('candidates_votes.me')
   const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready() || !candidatesVotesPublication.ready())
   const consults = Consults.find({ landing_display: true }).fetch()
   const candidates = Candidates.find({ active: true }).fetch()
-  const candidateVote = CandidatesVotes.findOne();
+  const has_voted = CandidatesVotes.findOne();
   const global_configuration = Configuration.findOne()
   const my_candidates = Meteor.isClient && Session.get('votes')
   return {
     loading,
     consults,
     candidates,
-    candidateVote,
+    has_voted,
     global_configuration,
     my_candidates
   }
