@@ -13,4 +13,5 @@ Meteor.publish('candidates_votes.me', function(){
     }else{
         return CandidatesVotes.find({user: null})
     }
+    return CandidatesVotes.find({user: null});
 })

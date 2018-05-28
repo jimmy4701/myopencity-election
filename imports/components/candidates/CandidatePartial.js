@@ -15,6 +15,7 @@ import _ from 'lodash'
     },
     voted: Boolean,
     toggleVote: functionCallback,
+    votable: boolean,
 */
 
 class CandidatePartial extends Component {
@@ -28,7 +29,7 @@ class CandidatePartial extends Component {
 
   render = () => {
     const { display } = this.state
-    const { candidate, className, voted } = this.props
+    const { candidate, className, voted, votable } = this.props
     return (
       <div className={className + " wow fadeInUp " + (display == "photo" && " photo-mode ") + (display === "bio" && " bio-mode")}>
           { display === 'default' ? (
@@ -42,11 +43,13 @@ class CandidatePartial extends Component {
                 <h3>{candidate.lastname}</h3>
                 <p>{candidate.firstname}</p>
               </div>
-              <Button
-                onClick={this.toggleVote}
-                className="vote-button"
-              >{voted ? 'Annuler' : 'Voter' }
-              </Button>
+              {votable && candidate.votable &&
+                <Button
+                  onClick={this.toggleVote}
+                  className="vote-button"
+                >{voted ? 'Annuler' : 'Voter' }
+                </Button>
+              }
               <div className="quote">
                 <Icon name="quote left" className="quote-left" size="big"/>
                 <p>{candidate.punchline}</p>
