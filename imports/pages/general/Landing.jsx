@@ -67,8 +67,9 @@ export class Landing extends TrackerReact(Component) {
             <Grid.Column width={16}>
               <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
                 <Grid.Column width={16}>
-                  <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
-                  <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
+                  {/* <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
+                  <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header> */}
+                  <Image src="/images/ag-melee.gif" size="big" inline />
                 </Grid.Column>
               </Grid>
             </Grid.Column>
@@ -88,7 +89,7 @@ export class Landing extends TrackerReact(Component) {
                     }}
                   >
                     <Container>
-                      <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
+                      <div style={{color: "white"}} dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
                     </Container>
                   </div>
                   { Meteor.isClient && Meteor.userId() &&
