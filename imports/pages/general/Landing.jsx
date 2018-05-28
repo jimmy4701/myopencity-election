@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Grid, Header, Container, Loader, Image, Button, Sticky} from 'semantic-ui-react'
+import {Grid, Header, Container, Loader, Image, Button, Sticky, Message} from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
@@ -91,29 +91,38 @@ export class Landing extends TrackerReact(Component) {
                       <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
                     </Container>
                   </div>
-                  { Meteor.isClient && Meteor.userId() &&
-                    <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      justifyContent: 'space-around',
-                      alignItems: 'baseline',
-                      alignContent: 'stretch',
-                    }}
-                    >
-                      {candidateVote && <Redirect to='/results' />}
-                      {candidates.map(candidate => (
-                        <CandidatePartial
-                          key={candidate._id}
-                          candidate={candidate}
-                          voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
-                          toggleVote={this.toggleVote}
-                        />
-                      ))}
-
-                    </div>
+                  { Meteor.isClient && Meteor.userId() && candidateVote &&
+                    <Grid centered style={{paddingBottom: '5em'}}>
+                      <Grid.Column width={4} >
+                        <Message
+                          info
+                          centered
+                          style={{textAlign: 'center'}}
+                        >Votre vote à bien été pris en compte !
+                        </Message>
+                      </Grid.Column>
+                    </Grid>
                   }
+                  <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around',
+                    alignItems: 'baseline',
+                    alignContent: 'stretch',
+                  }}
+                  >
+                    {candidates.map(candidate => (
+                      <CandidatePartial
+                        key={candidate._id}
+                        candidate={candidate}
+                        votable={Meteor.isClient && Meteor.userId() && !candidateVote}
+                        voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
+                        toggleVote={this.toggleVote}
+                      />
+                    ))}
+                  </div>
                 </Grid.Column>
               </Grid>
             </Grid.Column>
