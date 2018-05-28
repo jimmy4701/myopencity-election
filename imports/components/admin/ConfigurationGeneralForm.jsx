@@ -45,6 +45,8 @@ export default class ConfigurationGeneralForm extends Component {
 
     handleConfigurationChange = (e, {name, value}) => this.setState({ configuration: {[name]: value} });
 
+    handleConfigurationToggle = (e, {name, checked}) => this.setState({configuration: {[name]: checked}});
+
     toggleConfiguration = (attr) => {
         let { configuration } = this.state
         configuration[attr] = !configuration[attr]
@@ -72,6 +74,12 @@ export default class ConfigurationGeneralForm extends Component {
                                     { key: 3, text: 'Votes clos', value: 'close' },
                                   ]}
                                 onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Checkbox
+                                label="Afficher les résultats"
+                                name="show_results"
+                                checked={configuration.show_results}
+                                onChange={this.handleConfigurationToggle}
                             />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes généraux</Divider>

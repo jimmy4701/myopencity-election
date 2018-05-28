@@ -198,6 +198,10 @@ const ConfigurationSchema = new SimpleSchema({
   vote_step: {
     type: String,
     defaultValue: "close"
+  },
+  show_results: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 
