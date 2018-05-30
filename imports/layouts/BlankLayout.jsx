@@ -18,6 +18,7 @@ import InitialPresentationPage from '/imports/pages/initial_pages/InitialPresent
 import InitialConfigPage from '/imports/pages/initial_pages/InitialConfigPage'
 import AdminConsultsSummaryPage from '/imports/pages/admin/AdminConsultsSummaryPage'
 import NotFound from '/imports/pages/general/NotFound'
+import ResultsAnimate from '/imports/pages/general/ResultsAnimate'
 
 export class BlankLayout extends Component {
   constructor(props){
@@ -49,6 +50,7 @@ export class BlankLayout extends Component {
             <Switch>
               <Admin component={ AdminConsultsSummaryPage }  exact path="/admin/consults_summary" { ...this.props } />
               <Public component={ InitialPresentationPage }  exact path="/initial/presentation" { ...this.props } />
+              <Public component={ResultsAnimate} exact path="/resultsAnimate" { ...this.props } />
               <Public component={ InitialConfigPage }  exact path="/initial/config" { ...this.props } />
               <Public component={ NotFound } path="*"  { ...this.props } />
             </Switch>

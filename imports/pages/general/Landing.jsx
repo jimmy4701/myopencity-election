@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Grid, Header, Container, Loader, Image, Button, Sticky, Message} from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
 import { Configuration } from '/imports/api/configuration/configuration'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { Candidates } from '/imports/api/candidates/candidates'
 import { CandidatesVotes } from '/imports/api/candidates_votes/candidates_votes'
 import CandidatePartial from '/imports/components/candidates/CandidatePartial'
@@ -57,10 +56,14 @@ export class Landing extends TrackerReact(Component) {
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
-      landing_explain_text
+      landing_explain_text,
+      animate,
     } = global_configuration
 
     if (!loading) {
+      if(animate){
+        return <Redirect to='/resultsAnimate' />
+      }
       return (
         <div>
           <Grid stackable centered className="landing-page">
