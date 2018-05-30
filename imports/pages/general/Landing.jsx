@@ -59,6 +59,7 @@ export class Landing extends TrackerReact(Component) {
       landing_consults_background_color,
       landing_explain_text,
       animate,
+      vote_step,
     } = global_configuration
 
     if (!loading) {
@@ -123,7 +124,7 @@ export class Landing extends TrackerReact(Component) {
                       <CandidatePartial
                         key={candidate._id}
                         candidate={candidate}
-                        votable={Meteor.isClient && Meteor.userId() && !has_voted}
+                        votable={vote_step !== "close" && Meteor.isClient && Meteor.userId() && !has_voted}
                         voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
                         toggleVote={this.toggleVote}
                       />
