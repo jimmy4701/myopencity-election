@@ -28,9 +28,10 @@ class Navbar extends TrackerReact(Component){
 
   sendVotes = () => {
     const votes = Meteor.isClient && Session.get('votes')
-    if (Array.isArray(votes) && votes.length > 10) {
+    const { nb_elected_candidates } = Meteor.isClient && Session.get('global_configuration')
+    if (Array.isArray(votes) && votes.length > nb_elected_candidates) {
       Bert.alert({
-        title: "Vous ne pouvez voter que pour 10 candidats",
+        title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
         type: "danger",
         style: "growl-bottom-left",
       })

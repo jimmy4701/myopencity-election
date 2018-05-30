@@ -19,15 +19,16 @@ export class Landing extends TrackerReact(Component) {
 
   toggleVote = candidate => {
     let my_candidates = Session.get('votes') || []
+    const { nb_elected_candidates } = this.props.global_configuration
     if (_.find(my_candidates, v => v._id === candidate._id)) {
       console.log('found in votes')
       my_candidates = _.filter(my_candidates, v => v._id !== candidate._id)
       Session.set("votes", my_candidates)
     } else {
       console.log('not found in votes')
-      if (my_candidates.length >= 10) {
+      if (my_candidates.length >= nb_elected_candidates) {
         Bert.alert({
-          title: "Vous ne pouvez voter que pour 10 candidats",
+          title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
           type: "danger",
           style: "growl-bottom-left",
         })

@@ -206,6 +206,10 @@ const ConfigurationSchema = new SimpleSchema({
   animate: {
     type: Boolean,
     defaultValue: false
+  },
+  nb_elected_candidates: {
+    type: Number,
+    defaultValue: 10
   }
 })
 
