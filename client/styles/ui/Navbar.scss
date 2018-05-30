@@ -12,3 +12,10 @@
     color: white !important;
   }
 }
+
+.votebar-votes {
+  @media screen and (max-width: 374px) {
+    padding-top: 14em !important;
+    overflow-x: hidden;
+  }
+}

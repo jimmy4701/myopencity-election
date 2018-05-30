@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import _ from 'lodash'
-const mailer = require('mailer')
+import mailer from 'mailer'
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
 import EmailResetPassword from '/imports/components/emails/EmailResetPassword'
 import React from "react"
@@ -46,6 +46,18 @@ Meteor.methods({
       throw new Meteor.Error('403', "Vous devez vous connecter")
     } else {
       Meteor.users.update({ _id: this.userId }, { $set: { profile: profile } })
+    }
+  },
+  'users.toggle_early_voter'(user_id) {
+    if (!Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    if (Roles.userIsInRole(user_id, 'early_voter')) {
+      let user = Meteor.users.findOne({ _id: user_id })
+      user.roles.splice(user.roles.indexOf('early_voter'), 1)
+      Meteor.users.update({ _id: user_id }, user)
+    } else {
+      Roles.addUsersToRoles(user_id, 'early_voter')
     }
   },
   'users.toggle_blocked'(user_id) {

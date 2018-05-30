@@ -6,6 +6,33 @@ export default class CandidateForm extends Component {
         candidate: {}
     }
 
+    handlePictureImport(e){
+        e.preventDefault()
+        this.setState({loading_candidate_image: true})
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(e.target.files[0], (error, downloadUrl) => {
+          if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            this.setState({loading_candidate_image: false})
+            Bert.alert({
+              title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+              message: error.reason,
+              type: 'danger',
+              style: 'growl-bottom-left',
+            })
+          }
+          else {
+            // we use $set because the user can change their avatar so it overwrites the url :)
+            const {candidate} = this.state
+            candidate.image_url = downloadUrl
+            this.setState({candidate, loading_candidate_image: false})
+          }
+          // you will need this in the event the user hit the update button because it will remove the avatar url
+        })
+    }
+
     submit = (e) => {
         e.preventDefault()
         const {candidate} = this.state
@@ -50,7 +77,8 @@ export default class CandidateForm extends Component {
     }
 
     render(){
-        const {candidate} = this.state
+        const {candidate, loading_candidate_image} = this.state
+        const {amazon_connected} = Session.get('global_configuration')
         return(
             <Form onSubmit={this.submit}>
                 <Form.Group widths='equal'>
@@ -95,6 +123,16 @@ export default class CandidateForm extends Component {
                         name='image_url'
                     />
                 </Form.Group>
+                {amazon_connected ?
+                    <Form.Input
+                        label='Envoyez une image à partir de votre ordinateur'
+                        onChange={(e) => {this.handlePictureImport(e)}}
+                        type="file"
+                        loading={loading_candidate_image}
+                    />
+                :
+                    <p>Envie d'envoyer des images depuis votre ordinateur ? Vous devez <a href="/admin/external_apis">configurer Amazon S3</a></p>
+                }
                 <Form.Group widths='equal'>
                     <Form.Checkbox
                         label='Actif'

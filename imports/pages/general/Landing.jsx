@@ -1,47 +1,54 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Grid, Header, Container, Loader, Image, Button, GridColumn, Sticky} from 'semantic-ui-react'
+import {Grid, Header, Container, Loader, Image, Button, Sticky, Message} from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
-import {Consults} from '/imports/api/consults/consults'
-import {Projects} from '/imports/api/projects/projects'
-import {Configuration} from '/imports/api/configuration/configuration'
-import {Link, withRouter} from 'react-router-dom'
-import {Candidates} from '/imports/api/candidates/candidates'
-import CardCandidate from '/imports/components/candidates/CardCandidate'
+import { Consults } from '/imports/api/consults/consults'
+import { Projects } from '/imports/api/projects/projects'
+import { Configuration } from '/imports/api/configuration/configuration'
+import { Link, withRouter, Redirect } from 'react-router-dom'
+import { Candidates } from '/imports/api/candidates/candidates'
+import { CandidatesVotes } from '/imports/api/candidates_votes/candidates_votes'
+import CandidatePartial from '/imports/components/candidates/CandidatePartial'
 import Navbar from '/imports/components/navigation/Navbar'
 
-export class Landing extends TrackerReact(Component){
+export class Landing extends TrackerReact(Component) {
 
   state = {
     my_candidates: []
   }
 
-  toggleVote = candidate_id => {
-    let { my_candidates } = this.state
-    if (my_candidates.find(v => v === candidate_id) !== undefined) {
-      my_candidates = my_candidates.filter(v => v !== candidate_id)
-      this.setState({my_candidates})
-      Session.set("votes", my_candidates.length)
+  toggleVote = candidate => {
+    let my_candidates = Session.get('votes') || []
+    const { nb_elected_candidates } = this.props.global_configuration
+    if (_.find(my_candidates, v => v._id === candidate._id)) {
+      console.log('found in votes')
+      my_candidates = _.filter(my_candidates, v => v._id !== candidate._id)
+      Session.set("votes", my_candidates)
     } else {
-      if(my_candidates.length >= 10){
+      console.log('not found in votes')
+      if (my_candidates.length >= nb_elected_candidates) {
         Bert.alert({
-          title: "Vous ne pouvez voter que pour 10 candidats",
+          title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
           type: "danger",
           style: "growl-bottom-left",
         })
       } else {
-        my_candidates.push(candidate_id)
-        this.setState({my_candidates})
-        Session.set("votes", my_candidates.length)
+        my_candidates.push(candidate)
+        Session.set("votes", my_candidates)
       }
     }
-    
+
   }
 
-  render(){
-    
-    const { my_candidates } = this.state
-    const {consults, global_configuration, loading, candidates} = this.props
+  render() {
+    const {
+      consults,
+      global_configuration,
+      loading,
+      candidates,
+      has_voted,
+      my_candidates
+    } = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -50,41 +57,60 @@ export class Landing extends TrackerReact(Component){
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
-      landing_explain_text
+      landing_explain_text,
+      animate,
+      vote_step,
     } = global_configuration
 
-    if(!loading){
-      return(
+    if (!loading) {
+      if(animate){
+        return <Redirect to='/resultsAnimate' />
+      }
+      return (
         <div>
-        <Grid stackable centered className="landing-page">   
-          <Grid.Column width={16}>
-            <Grid className="landing-header" style={{backgroundImage: "url(" + landing_header_background_url + ")"}} verticalAlign="middle">
-              <Grid.Column width={16}>
-                <Header className="wow fadeInUp main-title" style={{color: landing_main_title_color}} as="h1">{landing_main_title ? landing_main_title : main_title }</Header>
-                <Header className="wow fadeInUp" style={{color: landing_header_description_color}} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
-              </Grid.Column>
-            </Grid>
-          </Grid.Column>
-          <Grid.Column
-            width={16}
-            className="center-align landing-part"
-            verticalAlign="middle"
-            style={{paddingTop: '0px'}}
-          >
-            <Grid verticalAlign="middle" stackable>
-              <Grid.Column width={16}>
-                <div
-                  style={{
-                    backgroundColor: '#2699FB',
-                    padding: '2em',
-                    marginBottom: '4em',
-                  }}
-                >
-                  <Container>
-                    <div dangerouslySetInnerHTML={{__html: landing_explain_text }}></div>
-                  </Container>
-                </div>
-                <div
+          <Grid stackable centered className="landing-page">
+            <Grid.Column width={16}>
+              <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
+                <Grid.Column width={16}>
+                  {/* <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
+                  <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header> */}
+                  <Image src="/images/ag-melee.gif" size="big" inline />
+                </Grid.Column>
+              </Grid>
+            </Grid.Column>
+            <Grid.Column
+              width={16}
+              className="center-align landing-part"
+              verticalAlign="middle"
+              style={{ paddingTop: '0px' }}
+            >
+              <Grid verticalAlign="middle" stackable>
+                <Grid.Column width={16}>
+                  <div
+                    style={{
+                      backgroundColor: '#2699FB',
+                      padding: '2em',
+                      marginBottom: '4em',
+                    }}
+                  >
+                    <Container>
+                      <div style={{color: "white"}} dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
+                    </Container>
+                  </div>
+                  { has_voted &&
+                    <Grid centered style={{paddingBottom: '5em'}}>
+                      <Grid.Column width={4} >
+                        <Message
+                          className="wow fadeInUp"
+                          info
+                          centered
+                          style={{textAlign: 'center'}}
+                        >Votre vote a bien été pris en compte !
+                        </Message>
+                      </Grid.Column>
+                    </Grid>
+                  }
+                  <div
                   style={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -93,48 +119,24 @@ export class Landing extends TrackerReact(Component){
                     alignItems: 'baseline',
                     alignContent: 'stretch',
                   }}
-                >
-                {candidates.map(candidate => (
-                  <CardCandidate
-                    candidate={candidate}
-                    voted={my_candidates.find(candidate_id => candidate_id === candidate._id) !== undefined}
-                    voteForMe={this.toggleVote}
-                  />
-                ))}
-                
-                </div>
-              </Grid.Column>
-            </Grid>
-          </Grid.Column>
-          {consults.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container">
-                <div className="landing-back-title">CONSULTATIONS</div>
-                <Header as="h2">Les consultations du moment</Header>
-              </Grid.Column>
-          : ''}
-          {consults.length > 0 ?
-              <Grid.Column width={16} className="landing-consults-part" style={{backgroundColor: landing_consults_background_color}}>
-                {consults.map((consult, index) => {
-                  return (
-                    <Grid verticalAlign="middle background-img" style={{minHeight: "20em", backgroundImage: "url(" + consult.image_url + ")"}} stackable>
-                      <Grid.Column width={16} className="center-align landing-consult-container" >
-                        <Container className="landing-consult-text">
-                          <Header as="h2" style={{color: "white"}}>{consult.title}</Header>
-                          <p>{consult.description}</p>
-                          <Link to={"/consults/" + consult.url_shorten}>
-                            <Button>Voir la consultation</Button>
-                          </Link>
-                        </Container>
-                      </Grid.Column>
-                    </Grid>
-                  )
-                })}
-              </Grid.Column>
-            : ''}
+                  >
+                    {candidates.map(candidate => (
+                      <CandidatePartial
+                        key={candidate._id}
+                        candidate={candidate}
+                        votable={vote_step !== "close" && Meteor.isClient && Meteor.userId() && !has_voted}
+                        voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
+                        toggleVote={this.toggleVote}
+                      />
+                    ))}
+                  </div>
+                </Grid.Column>
+              </Grid>
+            </Grid.Column>
           </Grid>
-          </div>
-        )
-    }else{
+        </div>
+      )
+    } else {
       return <Loader className="inline-block">Chargement de la page</Loader>
     }
   }
@@ -144,14 +146,19 @@ export default LandingContainer = createContainer(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
   const candidatesPublication = Meteor.isClient && Meteor.subscribe('candidates.active')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready())
-  const consults = Consults.find({landing_display: true}).fetch()
-  const candidates = Candidates.find({active: true}).fetch()
+  const candidatesVotesPublication = Meteor.isClient && Meteor.subscribe('candidates_votes.me')
+  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready() || !candidatesVotesPublication.ready())
+  const consults = Consults.find({ landing_display: true }).fetch()
+  const candidates = Candidates.find({ active: true }).fetch()
+  const has_voted = CandidatesVotes.findOne();
   const global_configuration = Configuration.findOne()
+  const my_candidates = Meteor.isClient && Session.get('votes')
   return {
     loading,
     consults,
     candidates,
-    global_configuration
+    has_voted,
+    global_configuration,
+    my_candidates
   }
 }, Landing)

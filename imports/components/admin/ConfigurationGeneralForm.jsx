@@ -17,6 +17,7 @@ export default class ConfigurationGeneralForm extends Component {
     componentWillMount() {
         if (Meteor.isClient) {
             const configuration = Session.get('global_configuration')
+            console.log(configuration)
             this.setState({ configuration })
         }
     }
@@ -42,16 +43,29 @@ export default class ConfigurationGeneralForm extends Component {
         })
     }
 
-    handleConfigurationChange = (e) => {
-        let { configuration } = this.state
-        configuration[e.target.name] = e.target.value
-        this.setState({ configuration })
-    }
+    handleConfigurationChange = (e, {name, value}) => {
+        let { configuration } = this.state;
+        configuration[name] = value;
+        this.setState({configuration})
+    };
 
     toggleConfiguration = (attr) => {
         let { configuration } = this.state
         configuration[attr] = !configuration[attr]
         this.setState({ configuration })
+    }
+
+    showResults = (e) => {
+        e.preventDefault();
+        Meteor.call('configuration.show_results')
+        let { configuration } = this.state
+        configuration.vote_step = "close"
+        this.setState({ configuration })
+        Bert.alert({
+            title: "L'Animation est lancée !",
+            type: 'success',
+            style: 'growl-bottom-left',
+        })
     }
 
     render() {
@@ -60,7 +74,27 @@ export default class ConfigurationGeneralForm extends Component {
         return (
             <Grid stackable {...this.props}>
                 <Grid.Column width={16}>
+                    <Button
+                        negative
+                        onClick={this.showResults}
+                    >LANCER LE PROCESS DE RESULTAT
+                    </Button>
                     <Form onSubmit={this.submit_form}>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Configuration des votes</Divider>
+                        <Form.Group widths="equal">
+                            <Form.Select
+                                compact
+                                label="Changer l'accès aux votes"
+                                name="vote_step"
+                                value={configuration.vote_step}
+                                options={[
+                                    { key: 1, text: 'Accès anticipé', value: 'early_voters' },
+                                    { key: 2, text: 'Votes actifs', value: 'voters' },
+                                    { key: 3, text: 'Votes clos', value: 'close' },
+                                  ]}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes généraux</Divider>
                         <Form.Group widths="equal">
                             <Form.Input

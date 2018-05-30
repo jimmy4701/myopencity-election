@@ -4,7 +4,8 @@ export const Candidates = new Mongo.Collection('candidates')
 
 const CandidateSchema = new SimpleSchema({
     image_url: {
-      type: String
+      type: String,
+      defaultValue: "/images/avatar-logo.png"
     },
     firstname: {
       type: String

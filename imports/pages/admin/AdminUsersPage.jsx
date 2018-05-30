@@ -11,14 +11,11 @@ export default class AdminUsersPage extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      page: 0,
-      users_count: 0,
-      filter_text: "",
-      results_per_page: 50
-    }
+  state = {
+    page: 0,
+    users_count: 0,
+    filter_text: "",
+    results_per_page: 50
   }
 
   componentWillMount(){
