@@ -29,5 +29,15 @@ Meteor.methods({
         emails.forEach(email => {
             AuthorizedEmails.remove({email});
         })
+    },
+
+    'authorized_emails.remove_all'() {
+        if (!this.userId) {
+            throw new Meteor.Error('403', "Vous devez être connecté")            
+        }
+        if (!Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
+            throw new Meteor.Error('403', "Vous devez être administrateur")
+        }
+        AuthorizedEmails.remove({});
     }
 })
