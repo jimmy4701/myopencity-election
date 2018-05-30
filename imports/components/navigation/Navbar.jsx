@@ -104,7 +104,7 @@ class Navbar extends TrackerReact(Component){
         }
           </Grid.Column>
         {((votes && votes.length) || open_modal) &&
-          <Grid.Column width={16} style={{marginTop: '3em', backgroundColor: '#0064b9', textAlign: 'center'}}>
+          <Grid.Column width={16} className="votebar" style={{}}>
             { open_modal && [
               <h3>Confirmer la validation des votes ?</h3>,
               <p>(irreversible aucune modification ne sera possible)</p>,
@@ -114,11 +114,31 @@ class Navbar extends TrackerReact(Component){
           </Grid.Column>
         }
         </Grid>
-        <Modal basic open={open_modal} style={{marginTop: '5em'}}>
+        <Modal basic size="mini" open={open_modal} style={{marginTop: '-17em'}} className="votebar-votes">
           {votes && votes.map(candidate => (
-            <div key={candidate._id}>
-              <Icon name="close" onClick={() => {Session.set('votes', votes.filter(vote => vote !== candidate ))}}/>
-              <Image avatar src={candidate.image_url}/>
+            <div key={candidate._id} style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "1em"
+            }}>
+              <div style={{
+                  color: "#b94040",
+                  display: "inline-block",
+                  width: "5em",
+                  cursor: "pointer"
+              }}>
+                <Icon name="close" size="big" onClick={() => {Session.set('votes', votes.filter(vote => vote !== candidate ))}}/><br/>
+                Retirer
+              </div>
+              <div style={{
+                backgroundImage: "url(" + candidate.image_url + ")",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                width: "5em",
+                height: "5em",
+                borderRadius: "50em",
+                marginRight: "1em"
+              }}></div>
               {candidate.firstname}
             </div>
           ))}
@@ -132,4 +152,14 @@ export default styled(Navbar)`
   position: fixed;
   width: 100vw;
   z-index: 1001;
+  > div .votebar {
+    margin-top: 3em;
+    background-color: #0064b9;
+    text-align: center !important;
+
+    @media screen and (max-width: 374px) {
+      margin-top: -1em;
+    }
+
+  }
 `

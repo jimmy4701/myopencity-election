@@ -85,7 +85,7 @@ export default styled(CandidatePartial)`
     margin: auto;
     padding: 2em;
     margin-bottom: 2em;
-    border: 15px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
+    border: 20px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
     border-top-left-radius: 5em;
     height: 37em;
     position: relative;
@@ -152,6 +152,14 @@ export default styled(CandidatePartial)`
         right: 5em;
         font-size: 4em;
         cursor: pointer;
+        
+        @media screen and (max-width: 500px) {
+          right: 4em;
+        }
+
+        @media screen and (max-width: 374px) {
+          right: 3em;
+        }
       }
     }
     > div .quote {
@@ -190,6 +198,13 @@ export default styled(CandidatePartial)`
         right: 5.5em;
         font-size: 4em;
         cursor: pointer;
+        @media screen and (max-width: 500px) {
+          right: 4em;
+        }
+
+        @media screen and (max-width: 374px) {
+          right: 3em;
+        }
       }
     }
     > .see-more-button {
