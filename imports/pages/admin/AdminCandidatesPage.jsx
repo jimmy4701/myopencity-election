@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import csv from 'csv'
 import { Grid, Loader, Header, Container, Button } from 'semantic-ui-react'
 import AdminCandidatePartial from '/imports/components/candidates/AdminCandidatePartial'
 import { withTracker } from 'meteor/react-meteor-data'
@@ -11,6 +12,26 @@ class AdminCandidatesPage extends Component {
     }
 
     editCandidate = (editing_candidate) => this.setState({editing_candidate, display_form: true})
+
+    exportCanidates = () => {
+        const {candidates} = this.props;
+        csv.stringify(
+            candidates.map(candidate => [candidate.lastname, candidate.firstname, candidate.votes]),
+            (e, result) => {
+                const blob = new Blob([result])
+                if (window.navigator.msSaveOrOpenBlob) {  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
+                window.navigator.msSaveBlob(blob, "candidats.csv")
+                } else {
+                    const a = window.document.createElement("a")
+                    a.href = window.URL.createObjectURL(blob, {type: "text/plain;charset=UTF-8"})
+                    a.download = "candidats.csv"
+                    document.body.appendChild(a)
+                    a.click()  // IE: "Access is denied" see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
+                    document.body.removeChild(a)
+                }
+            }
+        )
+    }
 
     toggleState = (e, {name}) => this.setState({[name]: !this.state[name]})
 
@@ -27,6 +48,7 @@ class AdminCandidatesPage extends Component {
                         <Container>
                             <Header as='h2'>Gestion des candidats</Header>
                             <Button onClick={this.toggleState} name="display_form">{display_form ? "Annuler" : "Créer candidat"}</Button>
+                            <Button onClick={this.exportCanidates}>Exporter les statistiques</Button>
                         </Container>
                     </Grid.Column>
                     {display_form ?
