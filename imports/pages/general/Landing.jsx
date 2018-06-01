@@ -8,6 +8,7 @@ import { Configuration } from '/imports/api/configuration/configuration'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { Candidates } from '/imports/api/candidates/candidates'
 import { CandidatesVotes } from '/imports/api/candidates_votes/candidates_votes'
+import { Partners } from '/imports/api/partners/partners'
 import CandidatePartial from '/imports/components/candidates/CandidatePartial'
 import Navbar from '/imports/components/navigation/Navbar'
 
@@ -47,7 +48,8 @@ export class Landing extends TrackerReact(Component) {
       loading,
       candidates,
       has_voted,
-      my_candidates
+      my_candidates,
+      partners
     } = this.props
     const {
       landing_header_background_url,
@@ -132,7 +134,7 @@ export class Landing extends TrackerReact(Component) {
                   </div>
                 </Grid.Column>
               </Grid>
-            </Grid.Column>
+            </Grid.Column>        
           </Grid>
         </div>
       )
@@ -147,7 +149,12 @@ export default LandingContainer = createContainer(() => {
   const candidatesPublication = Meteor.isClient && Meteor.subscribe('candidates.active')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
   const candidatesVotesPublication = Meteor.isClient && Meteor.subscribe('candidates_votes.me')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready() || !candidatesVotesPublication.ready())
+  const loading = Meteor.isClient && (
+       !landingConsultsPublication.ready()
+    || !globalConfigurationPublication.ready()
+    || !candidatesPublication.ready()
+    || !candidatesVotesPublication.ready()
+  )
   const consults = Consults.find({ landing_display: true }).fetch()
   const candidates = Candidates.find({ active: true }).fetch()
   const has_voted = CandidatesVotes.findOne();
@@ -159,6 +166,6 @@ export default LandingContainer = createContainer(() => {
     candidates,
     has_voted,
     global_configuration,
-    my_candidates
+    my_candidates,
   }
 }, Landing)

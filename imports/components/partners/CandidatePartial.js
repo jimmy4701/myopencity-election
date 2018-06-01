@@ -67,20 +67,13 @@ class CandidatePartial extends Component {
               {candidate.bio}
             </div>
           ):''}
-          {display === 'default' && [
+          {display === 'default' &&
             <Button
               onClick={() => this.handleDisplay('bio')}
               className="see-more-button"
             >Voir plus
-            </Button>,
-            <Button
-              as="a"
-              href={candidate.social_url}
-              target="_blank"
-              className="social-button"
-            ><Icon name="linkify" /> Profil pro
-          </Button>
-          ]}
+            </Button>
+          }
       </div>
     );
   }
@@ -220,12 +213,5 @@ export default styled(CandidatePartial)`
       position: absolute;
       bottom: 10px;
       left: 10px;
-    }
-    > .social-button {
-      background-color: white;
-      border-radius: 1em !important;
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
     }
 `;

@@ -15,6 +15,10 @@ const VoteFraudSchema = new SimpleSchema({
     },
     reason: {
       type: String,
+    },
+    hidden: {
+      type: Boolean,
+      defaultValue: false
     }
 })
 
