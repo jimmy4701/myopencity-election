@@ -15,8 +15,11 @@ class AdminCandidatesPage extends Component {
 
     exportCanidates = () => {
         const {candidates} = this.props;
+        console.log("cac", [["Nom de famille"  , "Prénom"           , "Nombre de votes"]].concat(candidates.map(candidate =>
+            [candidate.lastname, candidate.firstname, candidate.votes])));
         csv.stringify(
-            candidates.map(candidate => [candidate.lastname, candidate.firstname, candidate.votes]),
+            [["Nom de famille"  , "Prénom"           , "Nombre de votes"]].concat(candidates.map(candidate =>
+            [candidate.lastname, candidate.firstname, candidate.votes])),
             (e, result) => {
                 const blob = new Blob([result])
                 if (window.navigator.msSaveOrOpenBlob) {  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx

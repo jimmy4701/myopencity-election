@@ -5,8 +5,6 @@ import {Candidates} from '/imports/api/candidates/candidates'
 import {AuthorizedEmails} from '/imports/api/authorized_emails/authorized_emails';
 import {Configuration} from '/imports/api/configuration/configuration';
 
-
-
 import _ from 'lodash';
 
 Meteor.methods({
@@ -93,6 +91,7 @@ Meteor.methods({
 
     CandidatesVotes.insert({
       user: this.userId,
+      username: user.username,
       email: user.emails[0].address
     })
   },
