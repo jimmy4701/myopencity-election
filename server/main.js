@@ -35,6 +35,8 @@ import '/imports/api/authorized_emails/server/methods'
 import '/imports/api/authorized_emails/server/publication'
 import '/imports/api/vote_frauds/server/methods'
 import '/imports/api/vote_frauds/server/publication'
+import '/imports/api/partners/server/methods'
+import '/imports/api/partners/server/publication'
 
 Meteor.startup(() => {
 
