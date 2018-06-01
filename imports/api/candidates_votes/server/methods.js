@@ -87,7 +87,7 @@ Meteor.methods({
       })
     }
 
-    Candidates.update({ _id: {$in: candidates_filtered}}, { $inc: {votes: 1}})
+    Candidates.update({ _id: {$in: candidates_filtered}}, { $inc: {votes: 1}}, {multi: true})
 
     CandidatesVotes.insert({
       user: this.userId,

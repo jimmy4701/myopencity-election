@@ -13,7 +13,7 @@ class AdminCandidatesVotesPage extends Component {
         const {candidates_votes} = this.props;
         csv.stringify(
             [["Nom / Prénom"    , "Email"        , "Horodatage du vote"]].concat(candidates_votes.map(candidate =>
-            [candidate.username, candidate.email, candidate.created_at])),
+            [candidate.username, candidate.email, candidate.created_at.toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })])),
             (e, result) => {
                 const blob = new Blob([result])
                 if (window.navigator.msSaveOrOpenBlob) {  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx

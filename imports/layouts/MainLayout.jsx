@@ -103,9 +103,6 @@ export class MainLayout extends TrackerReact(Component) {
                       Admin
                     </Menu.Item>
                     : ''}
-                  <Menu.Item floated="bottom" name='profile' onClick={(e) => { this.go('/me/profile', e) }}>
-                    Profil
-                  </Menu.Item>
                   <Menu.Item floated="bottom" name='profile' onClick={this.logout}>
                     Déconnexion
                   </Menu.Item>
