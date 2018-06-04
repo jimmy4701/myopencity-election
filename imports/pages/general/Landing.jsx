@@ -112,6 +112,19 @@ export class Landing extends TrackerReact(Component) {
                       </Grid.Column>
                     </Grid>
                   }
+                  { Meteor.isClient && !Meteor.userId() &&
+                    <Grid centered style={{paddingBottom: '5em'}}>
+                      <Grid.Column width={4} >
+                        <Message
+                          className="wow fadeInUp"
+                          info
+                          centered
+                          style={{textAlign: 'center'}}
+                        >Vous devez vous connecter pour voter !
+                        </Message>
+                      </Grid.Column>
+                    </Grid>
+                  }
                   <div
                   style={{
                     display: 'flex',
