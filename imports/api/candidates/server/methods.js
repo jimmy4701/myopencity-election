@@ -1,4 +1,5 @@
 import {Meteor} from 'meteor/meteor'
+import {Configuration} from '/imports/api/configuration/configuration';
 import {Candidates} from '../candidates'
 
 Meteor.methods({
@@ -43,6 +44,15 @@ Meteor.methods({
         throw new Meteor.Error('500', "Candidat inexistant")
       }
       Candidates.update({_id: candidate_id}, {$set: {votable: !candidate.votable}})
+    }
+  },
+  'candidates.elected'(){
+    const { nb_elected_candidates, show_results } = Configuration.findOne();
+    if(show_results) {
+      return Candidates.find({}, {
+        sort: { votes: -1 },
+        limit: nb_elected_candidates
+      }).fetch()
     }
   }
 })

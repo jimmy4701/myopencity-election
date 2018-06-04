@@ -67,14 +67,11 @@ class NavbarAccountItem extends TrackerReact(Component){
       return(
         <Dropdown trigger={trigger} icon={null}>
           <Dropdown.Menu>
-            <Link to="/me/profile">
-              <Dropdown.Item>Profil</Dropdown.Item>
-            </Link>
-            {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) ?
+            {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
               <Link to="/admin/candidates" onClick={() => Session.set('votes', null)} >
                 <Dropdown.Item>Admin</Dropdown.Item>
               </Link>
-            : ''}
+            }
             <Dropdown.Item onClick={this.logout.bind(this)}>Déconnexion</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

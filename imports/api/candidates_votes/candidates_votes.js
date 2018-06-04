@@ -7,10 +7,18 @@ const CandidateVoteSchema = new SimpleSchema({
       type: String,
       unique: true
     },
+    username: {
+      type: String
+    },
     email: {
       type: String,
       unique: true
+    },
+    created_at: {
+      type: Date,
+      defaultValue: new Date()
     }
+    
 })
 
 CandidatesVotes.attachSchema(CandidateVoteSchema);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Table, Button, Loader, Form, Input } from 'semantic-ui-react';
+import { Grid, Table, Button, Loader, Form, Input, Container } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import 'setimmediate';
 import csv from 'csv'
@@ -48,7 +48,8 @@ class AdminAuthoriezdEmailsPage extends Component {
         e.target.value = null;
     }
 
-    addEmail = () => {
+    addEmail = (e) => {
+        e.preventDefault();
         Meteor.call('authorized_emails.add', this.state.email, (e) => {
             if (e) {
                 Bert.alert({
@@ -64,6 +65,25 @@ class AdminAuthoriezdEmailsPage extends Component {
                     style: 'growl-bottom-left',
                 })
                 this.setState({email: ""})
+            }
+        })
+    }
+
+    daleteAllEmails = () => {
+        Meteor.call('authorized_emails.remove_all', (e) => {
+            if (e) {
+                Bert.alert({
+                    title: "Erreur lors de la suppression des emails",
+                    message: e.reason,
+                    type: 'danger',
+                    style: 'growl-bottom-left',
+                })
+            } else {
+                Bert.alert({
+                    title: "La liste des emails autorisés a été supprimée",
+                    type: 'success',
+                    style: 'growl-bottom-left',
+                })
             }
         })
     }
@@ -96,20 +116,23 @@ class AdminAuthoriezdEmailsPage extends Component {
             return <Loader inline>Chargement de la liste d'email</Loader>
         }
         return (
-            <Grid stackable>
-                <Grid.Column width={16} style={{paddingTop: '6em'}}>
+            <Grid stackable  style={{paddingTop: '6em'}} centered >
+                <Grid.Column width={4}>
                     <Form onSubmit={this.addEmail} >
-                    <Form.Group inline>
-                    <Form.Input
-                        inline
-                        placeholder="Email à ajouter à la liste"
-                        name="email"
-                        value={email}
-                        onChange={this.update}
-                    />
-                    <Button inline>Ajouter</Button>
-                    </Form.Group>
+                        <Form.Group inline>
+                            <Form.Input
+                                type="email"
+                                inline
+                                placeholder="Email à ajouter à la liste"
+                                name="email"
+                                value={email}
+                                onChange={this.update}
+                            />
+                            <Button inline>Ajouter</Button>
+                        </Form.Group>
                     </Form>
+                </Grid.Column>
+                <Grid.Column width={5}>
                     <Input
                         inline
                         type="file"
@@ -117,7 +140,18 @@ class AdminAuthoriezdEmailsPage extends Component {
                         onChange={this.loadCsvFile}
                     />
                 </Grid.Column>
+                <Grid.Column width={2}>
+                    <Button onClick={this.daleteAllEmails} negative>
+                        Supprimer tout
+                    </Button>
+                </Grid.Column>                      
+                <Grid.Column width={3}>
+                    <Button as="a" href="/ressources/example.csv" >
+                        Télécharger un fichier d'exemple
+                    </Button>
+                </Grid.Column>     
                 <Grid.Column width={16}>
+                  <Container>
                     <Table>
                         <Table.Header>
                             <Table.Row>
@@ -140,6 +174,7 @@ class AdminAuthoriezdEmailsPage extends Component {
                             ))}
                         </Table.Body>
                     </Table>
+                  </Container>
                 </Grid.Column>
             </Grid>
         );

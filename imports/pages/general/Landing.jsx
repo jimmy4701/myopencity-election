@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Grid, Header, Container, Loader, Image, Button, Sticky, Message} from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
 import { Configuration } from '/imports/api/configuration/configuration'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { Candidates } from '/imports/api/candidates/candidates'
 import { CandidatesVotes } from '/imports/api/candidates_votes/candidates_votes'
+import { Partners } from '/imports/api/partners/partners'
 import CandidatePartial from '/imports/components/candidates/CandidatePartial'
 import Navbar from '/imports/components/navigation/Navbar'
 
@@ -20,15 +20,16 @@ export class Landing extends TrackerReact(Component) {
 
   toggleVote = candidate => {
     let my_candidates = Session.get('votes') || []
+    const { nb_elected_candidates } = this.props.global_configuration
     if (_.find(my_candidates, v => v._id === candidate._id)) {
       console.log('found in votes')
       my_candidates = _.filter(my_candidates, v => v._id !== candidate._id)
       Session.set("votes", my_candidates)
     } else {
       console.log('not found in votes')
-      if (my_candidates.length >= 10) {
+      if (my_candidates.length >= nb_elected_candidates) {
         Bert.alert({
-          title: "Vous ne pouvez voter que pour 10 candidats",
+          title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
           type: "danger",
           style: "growl-bottom-left",
         })
@@ -47,7 +48,8 @@ export class Landing extends TrackerReact(Component) {
       loading,
       candidates,
       has_voted,
-      my_candidates
+      my_candidates,
+      partners
     } = this.props
     const {
       landing_header_background_url,
@@ -57,10 +59,15 @@ export class Landing extends TrackerReact(Component) {
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
-      landing_explain_text
+      landing_explain_text,
+      animate,
+      vote_step,
     } = global_configuration
 
     if (!loading) {
+      if(animate){
+        return <Redirect to='/resultsAnimate' />
+      }
       return (
         <div>
           <Grid stackable centered className="landing-page">
@@ -119,7 +126,7 @@ export class Landing extends TrackerReact(Component) {
                       <CandidatePartial
                         key={candidate._id}
                         candidate={candidate}
-                        votable={Meteor.isClient && Meteor.userId() && !has_voted}
+                        votable={vote_step !== "close" && Meteor.isClient && Meteor.userId() && !has_voted}
                         voted={_.find(my_candidates, my_candidate => my_candidate._id === candidate._id)}
                         toggleVote={this.toggleVote}
                       />
@@ -127,7 +134,7 @@ export class Landing extends TrackerReact(Component) {
                   </div>
                 </Grid.Column>
               </Grid>
-            </Grid.Column>
+            </Grid.Column>        
           </Grid>
         </div>
       )
@@ -142,7 +149,12 @@ export default LandingContainer = createContainer(() => {
   const candidatesPublication = Meteor.isClient && Meteor.subscribe('candidates.active')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
   const candidatesVotesPublication = Meteor.isClient && Meteor.subscribe('candidates_votes.me')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !globalConfigurationPublication.ready() || !candidatesPublication.ready() || !candidatesVotesPublication.ready())
+  const loading = Meteor.isClient && (
+       !landingConsultsPublication.ready()
+    || !globalConfigurationPublication.ready()
+    || !candidatesPublication.ready()
+    || !candidatesVotesPublication.ready()
+  )
   const consults = Consults.find({ landing_display: true }).fetch()
   const candidates = Candidates.find({ active: true }).fetch()
   const has_voted = CandidatesVotes.findOne();
@@ -154,6 +166,6 @@ export default LandingContainer = createContainer(() => {
     candidates,
     has_voted,
     global_configuration,
-    my_candidates
+    my_candidates,
   }
 }, Landing)

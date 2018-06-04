@@ -90,7 +90,7 @@ export default class AdminUserRow extends TrackerReact(Component){
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
             <Button color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>
           : ''}
-          <Button color={early_voter ? "green" : ""} onClick={(e) => {this.toggleEarlyVoter(e)}}>{moderator ? "Voteur anticipé" : "Voteur normal"}</Button>
+          <Button color={early_voter ? "green" : ""} onClick={(e) => {this.toggleEarlyVoter(e)}}>{early_voter ? "Voteur anticipé" : "Voteur normal"}</Button>
         </Table.Cell>
       </Table.Row>
     )

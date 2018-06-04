@@ -24,6 +24,9 @@ import AdminExternalApisPage from '/imports/pages/admin/AdminExternalApisPage'
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminCandidatesPage from '/imports/pages/admin/AdminCandidatesPage'
 import AdminAuthorizedEmailsPage from '/imports/pages/admin/AdminAuthorizedEmailsPage'
+import AdminCandidatesVotesPage from '/imports/pages/admin/AdminCandidatesVotesPage'
+import AdminPartnersPage from '/imports/pages/admin/AdminPartnersPage'
+import AdminVoteFraudsPage from '/imports/pages/admin/AdminVoteFraudsPage'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -81,7 +84,19 @@ export class AdminLayout extends TrackerReact(Component) {
               </Menu.Item>
               <Menu.Item onClick={() => {this.go('/admin/authorized_emails')}} name='comments'>
                 <Icon name='at' />
-                Utilisateurs auhorisés
+                Gestions des voteurs
+              </Menu.Item>
+              <Menu.Item onClick={() => {this.go('/admin/candidates_votes')}} name='comments'>
+                <Icon name='bar chart' />
+                Statistiques de votes
+              </Menu.Item>
+              <Menu.Item onClick={() => {this.go('/admin/vote_frauds')}} name='comments'>
+                <Icon name='warning' />
+                Tentatives de fraude
+              </Menu.Item>
+              <Menu.Item onClick={() => {this.go('/admin/partners')}} name='comments'>
+                <Icon name='share alternate' />
+                Partenaires
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
@@ -96,6 +111,9 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminCandidatesPage }  exact path="/admin/candidates" { ...this.props } />
                       <Admin component={ AdminApiAuthorizationsPage }  exact path="/admin/api_authorizations" { ...this.props } />
                       <Admin component={ AdminAuthorizedEmailsPage }  exact path="/admin/authorized_emails" { ...this.props } />
+                      <Admin component={ AdminCandidatesVotesPage }  exact path="/admin/candidates_votes" { ...this.props } />
+                      <Admin component={ AdminVoteFraudsPage }  exact path="/admin/vote_frauds" { ...this.props } />
+                      <Admin component={ AdminPartnersPage }  exact path="/admin/partners" { ...this.props } />
                       <Admin component={ AdminExternalApisPage }  exact path="/admin/external_apis" { ...this.props } />
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />

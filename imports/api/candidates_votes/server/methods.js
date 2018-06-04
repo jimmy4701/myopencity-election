@@ -5,8 +5,6 @@ import {Candidates} from '/imports/api/candidates/candidates'
 import {AuthorizedEmails} from '/imports/api/authorized_emails/authorized_emails';
 import {Configuration} from '/imports/api/configuration/configuration';
 
-
-
 import _ from 'lodash';
 
 Meteor.methods({
@@ -16,7 +14,7 @@ Meteor.methods({
     }
 
     const user = Meteor.users.findOne({_id: this.userId})
-    const {vote_step} = Configuration.findOne();
+    const {vote_step, nb_elected_candidates} = Configuration.findOne();
 
     if (vote_step === "close") {
       VoteFrauds.insert({
@@ -46,13 +44,13 @@ Meteor.methods({
       throw new Meteor.Error('403', "Vous ne faites pas partis des voteurs autorisés")
     }
 
-    if(candidates.length > 10) {
+    if(candidates.length > nb_elected_candidates) {
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
-        reason: "A tenté de voter pour plus de dix candidats"
+        reason: `A tenté de voter pour plus de ${nb_elected_candidates} candidats`
       })
-      throw new Meteor.Error('403', "Vous ne pouvez voter que pour dix candidats")
+      throw new Meteor.Error('403', `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`)
     }
 
     const already_voted = CandidatesVotes.findOne({ $or: [
@@ -89,10 +87,11 @@ Meteor.methods({
       })
     }
 
-    Candidates.update({ _id: {$in: candidates_filtered}}, { $inc: {votes: 1}})
+    Candidates.update({ _id: {$in: candidates_filtered}}, { $inc: {votes: 1}}, {multi: true})
 
     CandidatesVotes.insert({
       user: this.userId,
+      username: user.username,
       email: user.emails[0].address
     })
   },

@@ -28,9 +28,10 @@ class Navbar extends TrackerReact(Component){
 
   sendVotes = () => {
     const votes = Meteor.isClient && Session.get('votes')
-    if (Array.isArray(votes) && votes.length > 10) {
+    const { nb_elected_candidates } = Meteor.isClient && Session.get('global_configuration')
+    if (Array.isArray(votes) && votes.length > nb_elected_candidates) {
       Bert.alert({
-        title: "Vous ne pouvez voter que pour 10 candidats",
+        title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
         type: "danger",
         style: "growl-bottom-left",
       })
@@ -56,7 +57,7 @@ class Navbar extends TrackerReact(Component){
   }
 
   render(){
-    const {navbar_color, main_title, navbar_consults, navbar_projects} = Session.get('global_configuration')
+    const {navbar_color, main_title, navbar_consults, navbar_projects, nb_elected_candidates} = Session.get('global_configuration')
     const { className } = this.props
     const { open_modal } = this.state
     const votes = Meteor.isClient && Session.get('votes')
@@ -89,7 +90,7 @@ class Navbar extends TrackerReact(Component){
                 </div>
               </Link>
               <Menu.Menu position='right' className="item">
-                {votes ? `votes restants : ${10 - votes.length}/10` : ''}
+                {votes ? `votes restants : ${nb_elected_candidates - votes.length}/${nb_elected_candidates}` : ''}
                 <NavbarAccountItem />
               </Menu.Menu>
             </Container>
