@@ -76,17 +76,7 @@ class Navbar extends TrackerReact(Component){
             <Container>
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
-                  Intro
-                </div>
-              </Link>
-              <Link className="item" to='/'>
-                <div className="navbar-item" header>
-                  Candidats
-                </div>
-              </Link>
-              <Link className="item" to='/'>
-                <div className="navbar-item" header>
-                  Partenaires
+                  Accueil
                 </div>
               </Link>
               <Menu.Menu position='right' className="item">

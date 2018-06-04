@@ -23,7 +23,7 @@ class CandidatePartial extends Component {
     display: 'default', // default - bio - photo
   }
 
-  handleDisplay = (value) => this.setState({display: value})
+  handleDisplay = (value) => this.setState({ display: value })
 
   toggleVote = () => this.props.toggleVote(this.props.candidate)
 
@@ -32,67 +32,67 @@ class CandidatePartial extends Component {
     const { candidate, className, voted, votable } = this.props
     return (
       <div className={className + " wow fadeInUp " + (display == "photo" && " photo-mode ") + (display === "bio" && " bio-mode")}>
-          { display === 'default' ? (
-            <div className={"animated fadeIn"}>
-              <div
-                className="avatar"
-                style={{background: `url(${candidate.image_url}) no-repeat center center`}}
-                onClick={() => this.handleDisplay('photo')}
-              />
-              <div className="identity">
-                <h3>{candidate.lastname}</h3>
-                <p>{candidate.firstname}</p>
-              </div>
-              {votable && candidate.votable &&
-                <Button
-                  onClick={this.toggleVote}
-                  className="vote-button"
-                >{voted ? 'Annuler' : 'Voter' }
-                </Button>
-              }
-              <div className="quote">
-                <Icon name="quote left" className="quote-left" size="big"/>
-                <p>{candidate.punchline}</p>
-              <Icon className="quote-right" name="quote right" size="big"/>
-              </div>
-              <p className="bio">{_.truncate(candidate.bio, {length: 200, separator: '...'})}</p>
+        {display === 'default' ? (
+          <div className={"animated fadeIn"}>
+            <div
+              className="avatar"
+              style={{ background: `url(${candidate.image_url}) no-repeat center center` }}
+              onClick={() => this.handleDisplay('photo')}
+            />
+            <div className="identity">
+              <h3>{candidate.lastname}</h3>
+              <p>{candidate.firstname}</p>
             </div>
-           ) : display === 'photo' ? (
-            <div className="photo-container animated flipInX">
-              <Icon circular onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon"/>
+            {votable && candidate.votable &&
+              <Button
+                onClick={this.toggleVote}
+                className="vote-button"
+              >{voted ? 'Annuler' : 'Voter'}
+              </Button>
+            }
+            <div className="quote">
+              <Icon name="quote left" className="quote-left" size="big" />
+              <p>{candidate.punchline}</p>
+              <Icon className="quote-right" name="quote right" size="big" />
             </div>
-          ) : display === 'bio' ? (
-            <div className="full-bio animated flipInX">
-              <Icon circular onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon" />
-              {candidate.bio}
-            </div>
-          ):''}
-          {display === 'default' && [
+            <p className="bio">{_.truncate(candidate.bio, { length: 200, separator: '...' })}</p>
             <Button
               onClick={() => this.handleDisplay('bio')}
               className="see-more-button"
             >Voir plus
-            </Button>,
-            <Button
-              as="a"
-              href={candidate.social_url}
-              target="_blank"
-              className="social-button"
-            ><Icon name="linkify" /> Profil pro
-          </Button>
-          ]}
+            </Button>
+            { candidate.social_url != '' &&
+              <Button
+                as="a"
+                href={candidate.social_url}
+                target="_blank"
+                className="social-button"
+              ><Icon name="linkify" /> Profil pro
+              </Button>
+            }
+          </div>
+        ) : display === 'photo' ? (
+          <div className="photo-container animated flipInX">
+            <Icon circular onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon" />
+          </div>
+        ) : display === 'bio' ? (
+          <div className="full-bio animated flipInX">
+            <Icon circular onClick={() => this.handleDisplay('default')} name="remove" className="remove-icon" />
+            {candidate.bio}
+          </div>
+        ) : ''}
       </div>
     );
   }
 }
 
-export default styled(CandidatePartial)`
+export default styled(CandidatePartial) `
     background-color: #2699FB;
     width: 30em;
     margin: auto;
     padding: 2em;
     margin-bottom: 2em;
-    border: 20px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
+    border: 20px solid ${({ voted }) => voted ? '#B8FFFC' : 'white'};
     border-top-left-radius: 5em;
     height: 37em;
     position: relative;
@@ -115,7 +115,7 @@ export default styled(CandidatePartial)`
       width: 200px;
       height: 200px;
       border-radius: 50%;
-      border: 7px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
+      border: 7px solid ${({ voted }) => voted ? '#B8FFFC' : 'white'};
       background-size: cover !important;
     }
     > div .identity {
@@ -144,7 +144,7 @@ export default styled(CandidatePartial)`
       padding: 0.5em;
     }
     > .photo-container {
-      background-image: url('${({candidate}) => candidate.image_url}');
+      background-image: url('${({ candidate }) => candidate.image_url}');
       height: 85%;
       background-repeat: no-repeat;
       background-color: red;
@@ -214,14 +214,14 @@ export default styled(CandidatePartial)`
         }
       }
     }
-    > .see-more-button {
+    > div .see-more-button {
       background-color: white;
       border-radius: 1em !important;
       position: absolute;
       bottom: 10px;
       left: 10px;
     }
-    > .social-button {
+    > div .social-button {
       background-color: white;
       border-radius: 1em !important;
       position: absolute;
