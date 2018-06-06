@@ -142,6 +142,9 @@ export default styled(Navbar)`
   position: fixed;
   width: 100vw;
   z-index: 1001;
+  > div .item {
+    color: white !important;
+  }
   > div .votebar {
     margin-top: 3em;
     background-color: #0064b9;

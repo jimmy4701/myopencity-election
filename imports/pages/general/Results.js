@@ -32,7 +32,7 @@ class Results extends Component {
     return (
       <Grid style={{paddingTop: '5em'}}>
         <Grid.Column width={16}>
-          <Header style={{paddingBottom: '2em'}} as="h1" >Resultats des votes</Header>
+          <Header style={{padding: '0 2em 2em'}} as="h1" >Resultats des votes</Header>
           <div
             style={{
               display: 'flex',

@@ -151,6 +151,7 @@ export default styled(CandidatePartial) `
       margin-top: 1em;
       background-size: cover;
       background-position: center;
+      min-height: 30em;
 
       > .remove-icon {
         position: absolute;
