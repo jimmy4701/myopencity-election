@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Grid } from 'semantic-ui-react';
 
 import CandidatePartialMini from '/imports/components/candidates/CandidatePartialMini'
 
@@ -30,21 +30,23 @@ class Results extends Component {
   render = () => {
     const { candidates } = this.state;
     return (
-      <Container style={{paddingTop: '5em'}}>
-        <Header style={{paddingBottom: '2em'}} as="h1" >Resultats des votes</Header>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            alignItems: 'baseline',
-            alignContent: 'stretch',
-          }}
-        >
-          {candidates.map(candidate => <CandidatePartialMini candidate={candidate} />)}
-        </div>
-      </Container>
+      <Grid style={{paddingTop: '5em'}}>
+        <Grid.Column width={16}>
+          <Header style={{paddingBottom: '2em'}} as="h1" >Resultats des votes</Header>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              alignItems: 'baseline',
+              alignContent: 'stretch',
+            }}
+          >
+            {candidates.map(candidate => <CandidatePartialMini candidate={candidate} />)}
+          </div>
+        </Grid.Column>
+      </Grid>
     );
   }
 }

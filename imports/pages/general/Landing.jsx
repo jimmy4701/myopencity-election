@@ -100,7 +100,7 @@ export class Landing extends TrackerReact(Component) {
                     </Container>
                   </div>
                   { has_voted &&
-                    <Grid centered style={{paddingBottom: '5em'}}>
+                    <Grid centered style={{paddingBottom: '5em'}} stackable>
                       <Grid.Column width={4} >
                         <Message
                           className="wow fadeInUp"

@@ -25,8 +25,8 @@ const CandidatePartialMini = ({ candidate, className, nbVotes }) => (
       <div className="identity">
         <h3>{candidate.lastname}</h3>
         <p className="firstname">{candidate.firstname}</p>
-        <p className="total-votes">{candidate.votes} votes</p>
       </div>
+      <p className="total-votes">{candidate.votes} votes</p>
   </div>
 );
 
@@ -38,7 +38,7 @@ export default styled(CandidatePartialMini)`
     margin-bottom: 3em;
     border: 15px solid ${({voted}) => voted ? '#B8FFFC' : 'white'};
     border-top-left-radius: 5em;
-    height: 11em;
+    height: 14em;
     position: relative;
 
     > .avatar {
@@ -68,8 +68,13 @@ export default styled(CandidatePartialMini)`
       > .firstname {
         margin-bottom: 0;
       }
-      > .total-votes{
-        font-size: 0.6em;
-      }
+      
+    }
+    > .total-votes{
+      font-size: 1.6em;
+      position: absolute;
+      right: 0.5em;
+      color: white;
+      bottom: 0.5em;
     }
 `;

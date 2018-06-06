@@ -94,7 +94,7 @@ export default styled(CandidatePartial) `
     margin-bottom: 2em;
     border: 20px solid ${({ voted }) => voted ? '#B8FFFC' : 'white'};
     border-top-left-radius: 5em;
-    height: 37em;
+    min-height: 37em;
     position: relative;
 
     &.photo-mode{
@@ -195,6 +195,9 @@ export default styled(CandidatePartial) `
     > div .bio {
       color: white;
       font-weight: bold;
+      @media screen and (max-width: 500px) {
+        margin-bottom: 2em;
+      }
     }
     > .full-bio {
       padding-top: 4em;
