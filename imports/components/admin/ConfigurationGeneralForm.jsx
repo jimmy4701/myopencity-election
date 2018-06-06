@@ -94,6 +94,13 @@ export default class ConfigurationGeneralForm extends Component {
                                   ]}
                                 onChange={this.handleConfigurationChange}
                             />
+                            <Form.Input
+                                label='Nombre de votes max'
+                                onChange={this.handleConfigurationChange}
+                                value={configuration.nb_elected_candidates}
+                                name='nb_elected_candidates'
+                                type="number"
+                            />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes généraux</Divider>
                         <Form.Group widths="equal">
