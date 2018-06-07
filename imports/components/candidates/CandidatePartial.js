@@ -61,7 +61,7 @@ class CandidatePartial extends Component {
               className="see-more-button"
             >Voir plus
             </Button>
-            { candidate.social_url != '' &&
+            { candidate.social_url && candidate.social_url != '' &&
               <Button
                 as="a"
                 href={candidate.social_url}
