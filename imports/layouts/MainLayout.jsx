@@ -5,6 +5,7 @@ import { Switch, withRouter } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
 import { Loader, Grid, Sidebar, Button, Menu, Icon } from 'semantic-ui-react'
+import styled from 'styled-components'
 
 // Components
 import Navbar from '/imports/components/navigation/Navbar'
@@ -73,15 +74,13 @@ export class MainLayout extends TrackerReact(Component) {
   }
 
   render() {
-    const { global_configuration, loading } = this.props
-
-    console.log("CLIENT: MAIN LAYOUT");
+    const { global_configuration, loading, className } = this.props
 
 
     if (!loading) {
       Session.set('global_configuration', global_configuration)
       return (
-        <div className="main-container">
+        <div className={className + " main-container"}>
           <Helmet>
             <title>{global_configuration.main_title}</title>
             <meta name="description" content={global_configuration.main_description} />
@@ -156,4 +155,8 @@ export default MainLayoutContainer = createContainer(() => {
     loading,
     global_configuration
   }
-}, withRouter(MainLayout))
+}, styled(withRouter(MainLayout))`
+  > div div main.main-container{
+    margin-top: 6em;
+  }
+`)
