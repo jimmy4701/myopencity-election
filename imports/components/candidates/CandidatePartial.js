@@ -30,8 +30,9 @@ class CandidatePartial extends Component {
   render = () => {
     const { display } = this.state
     const { candidate, className, voted, votable } = this.props
+    const responsive = Meteor.isClient && window.innerWidth <= 400
     return (
-      <div className={className + " wow fadeInUp " + (display == "photo" && " photo-mode ") + (display === "bio" && " bio-mode")}>
+      <div className={className + " animated fadeInUp " + (display == "photo" && " photo-mode ") + (display === "bio" && " bio-mode")}>
         {display === 'default' ? (
           <div className={"animated fadeIn"}>
             <div
@@ -43,12 +44,21 @@ class CandidatePartial extends Component {
               <h3>{candidate.lastname}</h3>
               <p>{candidate.firstname}</p>
             </div>
-            {votable && candidate.votable &&
+            {!responsive && votable && candidate.votable &&
               <Button
                 onClick={this.toggleVote}
                 className="vote-button"
               >{voted ? 'Annuler' : 'Voter'}
               </Button>
+            }
+            {responsive && votable && candidate.votable &&
+              <div>
+                <Button
+                  onClick={this.toggleVote}
+                  className="responsive-vote-button"
+                >{voted ? 'Annuler' : 'Voter'}
+                </Button>
+              </div>
             }
             <div className="quote">
               <Icon name="quote left" className="quote-left" size="big" />
@@ -97,6 +107,10 @@ export default styled(CandidatePartial) `
     min-height: 37em;
     position: relative;
 
+    @media screen and (max-width: 400px) {
+      border-top-left-radius: 0;
+    }
+
     &.photo-mode{
       background-color: white;
       border: 10px solid #2699FB;
@@ -117,6 +131,11 @@ export default styled(CandidatePartial) `
       border-radius: 50%;
       border: 7px solid ${({ voted }) => voted ? '#B8FFFC' : 'white'};
       background-size: cover !important;
+
+      @media screen and (max-width: 400px) {
+        right: -3em; 
+      }
+
     }
     > div .identity {
       width: 7em;
@@ -127,6 +146,12 @@ export default styled(CandidatePartial) `
       font-size: 2em;
       color: white;
       text-align: left;
+
+      @media screen and (max-width: 400px) {
+        position: static;
+        margin-top: -2em;
+      }
+
       > h3 {
         margin-bottom: 0;
         font-size: 
@@ -141,6 +166,14 @@ export default styled(CandidatePartial) `
       position: relative;
       top: -8em;
       right: -4em;
+      padding: 0.5em;
+    }
+    > div div .responsive-vote-button {
+      background-color: white;
+      color: #2699FB;
+      border-radius: 0 1em !important;
+      font-size: 1.5em;
+      width: 9em;
       padding: 0.5em;
     }
     > .photo-container {
@@ -172,7 +205,11 @@ export default styled(CandidatePartial) `
     }
     > div .quote {
       color: white;
-      margin-top: -10em;
+      @media screen and (min-width: 400px) {
+        margin-top: -10em;
+      }
+
+
       > p {
         text-align: center !important;
       }
