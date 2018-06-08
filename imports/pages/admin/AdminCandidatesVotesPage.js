@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Grid, Table, Button, Loader, Form, Input, Container } from 'semantic-ui-react';
+import { Grid, Table, Button, Loader, Form, Input, Container, Header } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import 'setimmediate';
 import csv from 'csv'
@@ -36,10 +36,15 @@ class AdminCandidatesVotesPage extends Component {
     }
     return (
         <Grid stackable style={{ paddingTop: '6em' }} centered >
-            <Grid.Column width={10} centered>
+            <Grid.Column width={6} centered>
                 <Button onClick={this.export}>
                     Exporter les statistiques de votes
                 </Button>
+            </Grid.Column>
+            <Grid.Column width={6} centered>                
+                <Header as="h2">
+                    Total des votes : {candidates_votes.length}
+                </Header>
             </Grid.Column>
             <Grid.Column width={16}>
                 <Container>
