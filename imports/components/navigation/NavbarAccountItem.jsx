@@ -97,7 +97,6 @@ class NavbarAccountItem extends TrackerReact(Component){
 }
 
 export default withRouter(styled(NavbarAccountItem)`
-  background-color: red;
 
   > .menu.transition {
     color: black !important;

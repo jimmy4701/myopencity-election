@@ -142,7 +142,7 @@ export default styled(Navbar)`
   position: fixed;
   width: 100vw;
   z-index: 1001;
-  > div .item {
+  > div .navbar-item {
     color: white !important;
   }
   > div .votebar {

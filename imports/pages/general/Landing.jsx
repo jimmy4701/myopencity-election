@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Random } from 'meteor/random'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Grid, Header, Container, Loader, Image, Button, Sticky, Message} from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
@@ -76,7 +77,7 @@ export class Landing extends TrackerReact(Component) {
                 <Grid.Column width={16}>
                   {/* <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
                   <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header> */}
-                  <Image src="/images/ag-melee.gif" size="big" inline />
+                  {Meteor.isClient && <Image src={"/images/ag-melee.gif?" + Random.id()} size="big" inline />}
                 </Grid.Column>
               </Grid>
             </Grid.Column>
