@@ -35,6 +35,7 @@ class NavbarAccountItem extends TrackerReact(Component){
         })
       }else{
         this.props.history.push('/')
+        Session.set('votes', null)
         Bert.alert({
           title: "Au revoir",
           message: "Vous avez été déconnecté",
