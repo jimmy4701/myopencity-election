@@ -4,6 +4,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Menu, Modal, Dropdown, Image} from 'semantic-ui-react'
 import SigninForm from '/imports/components/accounts/SigninForm'
 import {Link, withRouter} from 'react-router-dom'
+import styled from 'styled-components'
 
 class NavbarAccountItem extends TrackerReact(Component){
 
@@ -57,6 +58,7 @@ class NavbarAccountItem extends TrackerReact(Component){
 
   render(){
     const current_user = Meteor.user()
+    const {className} = this.props
 
     if(current_user){
       const trigger = (
@@ -65,11 +67,11 @@ class NavbarAccountItem extends TrackerReact(Component){
         </div>
       )
       return(
-        <Dropdown trigger={trigger} icon={null}>
+        <Dropdown className={className} trigger={trigger} icon={null}>
           <Dropdown.Menu>
             {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
               <Link to="/admin/candidates" onClick={() => Session.set('votes', null)} >
-                <Dropdown.Item>Admin</Dropdown.Item>
+                <Dropdown.Item className="admin-button">Admin</Dropdown.Item>
               </Link>
             }
             <Dropdown.Item onClick={this.logout.bind(this)}>Déconnexion</Dropdown.Item>
@@ -94,4 +96,10 @@ class NavbarAccountItem extends TrackerReact(Component){
   }
 }
 
-export default withRouter(NavbarAccountItem)
+export default withRouter(styled(NavbarAccountItem)`
+  background-color: red;
+
+  > .menu.transition {
+    color: black !important;
+  }
+`)
