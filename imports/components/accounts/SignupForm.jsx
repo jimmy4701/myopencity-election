@@ -43,7 +43,7 @@ export class SignupForm extends Component{
         if(return_route){
           this.props.history.push(return_route)
         }else{
-          this.props.history.push('/consults')
+          this.props.history.push('/')
         }
         Bert.alert({
           title: "Votre compte a bien été créé",
