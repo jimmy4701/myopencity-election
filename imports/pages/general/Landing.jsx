@@ -115,7 +115,7 @@ export class Landing extends TrackerReact(Component) {
                   }
                   { Meteor.isClient && !Meteor.userId() &&
                     <Grid centered style={{paddingBottom: '5em'}}>
-                      <Grid.Column width={4} >
+                      <Grid.Column width={6} >
                         <Message
                           className="wow fadeInUp"
                           info
