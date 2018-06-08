@@ -20,6 +20,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: "A tenté de voter quand les votes étaient clos"
       })
       throw new Meteor.Error('403', "Les votes sont clos")
@@ -29,6 +30,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: "A tenté de voter en vote anticipé sans faire partie des voteurs anticipés"
       })
       throw new Meteor.Error('403', "Les votes sont ne sont pas encore ouverts")      
@@ -39,6 +41,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: "A tenté de voter sans faire partie des voteurs autorisés"
       })
       throw new Meteor.Error('403', "Vous ne faites pas partis des voteurs autorisés")
@@ -48,6 +51,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: `A tenté de voter pour plus de ${nb_elected_candidates} candidats`
       })
       throw new Meteor.Error('403', `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`)
@@ -61,6 +65,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: "A tenté de voter deux fois"
       })
       throw new Meteor.Error('403', "Vous avez déjà voté")
@@ -72,6 +77,7 @@ Meteor.methods({
         VoteFrauds.insert({
           user: this.userId,
           email: user.emails[0].address,
+          createdAt: new Date(),
           reason: "A tenté de voter pour un candidat inexistant"
         })
         throw new Meteor.Error('403', "Vous avez voté pour un candidat inexistant")
@@ -83,6 +89,7 @@ Meteor.methods({
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
+        createdAt: new Date(),
         reason: "A tenté de voter deux fois pour le même candidat"
       })
     }
@@ -91,6 +98,7 @@ Meteor.methods({
 
     CandidatesVotes.insert({
       user: this.userId,
+      created_at: new Date(),
       username: user.username,
       email: user.emails[0].address
     })
