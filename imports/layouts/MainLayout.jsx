@@ -157,6 +157,9 @@ export default MainLayoutContainer = createContainer(() => {
   }
 }, styled(withRouter(MainLayout))`
   > div div main.main-container{
+    @media screen and (max-width: 768px) {
+      padding: 1em;
+    }
     margin-top: 6em;
   }
 `)

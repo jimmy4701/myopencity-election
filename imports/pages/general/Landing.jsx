@@ -63,6 +63,7 @@ export class Landing extends TrackerReact(Component) {
       landing_explain_text,
       animate,
       vote_step,
+      nb_elected_candidates
     } = global_configuration
 
     if (!loading) {
@@ -114,14 +115,22 @@ export class Landing extends TrackerReact(Component) {
                     </Grid>
                   }
                   { Meteor.isClient && !Meteor.userId() &&
-                    <Grid centered style={{paddingBottom: '5em'}}>
+                    <Grid centered style={{paddingBottom: '5em'}} stackable>
                       <Grid.Column width={6} >
                         <Message
                           className="wow fadeInUp"
                           info
                           centered
-                          style={{textAlign: 'center'}}
-                        >Vous devez vous connecter pour voter !
+                          >
+                            <Message.Header>
+                              Que dois-je faire pour voter ?
+                            </Message.Header>
+                            <p>Vous devez créer un compte sur cette plateforme, avec votre adresse email fournie lors de votre adhésion.</p>
+                            <p>Une fois votre compte créé, vous pourrez alors voter pour {nb_elected_candidates} candidats sur cette page, en cliquant sur
+                            le bouton "Voter"</p>
+                            <Link to="/sign_up">
+                              <Button color="blue">Créer mon compte pour voter</Button>
+                            </Link>
                         </Message>
                       </Grid.Column>
                     </Grid>
