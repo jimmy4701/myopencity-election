@@ -29,16 +29,10 @@ export class Landing extends TrackerReact(Component) {
       Session.set("votes", my_candidates)
     } else {
       console.log('not found in votes')
-      if (my_candidates.length >= nb_elected_candidates) {
-        Bert.alert({
-          title: `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`,
-          type: "danger",
-          style: "growl-bottom-left",
-        })
-      } else {
+      // Check has already gender voted
+        my_candidates = _.filter(my_candidates, v => v.gender !== candidate.gender)
         my_candidates.push(candidate)
         Session.set("votes", my_candidates)
-      }
     }
 
   }

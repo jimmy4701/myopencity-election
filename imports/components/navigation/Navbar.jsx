@@ -80,7 +80,7 @@ class Navbar extends TrackerReact(Component){
                 </div>
               </Link>
               <Menu.Menu position='right' className="item">
-                {votes ? `votes restants : ${nb_elected_candidates - votes.length}/${nb_elected_candidates}` : ''}
+                {votes ? `votes restants : ${2 - votes.length}/2` : ''}
                 <NavbarAccountItem />
               </Menu.Menu>
             </Container>
