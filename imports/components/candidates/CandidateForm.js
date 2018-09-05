@@ -76,12 +76,28 @@ export default class CandidateForm extends Component {
         this.setState({candidate})
     }
 
+    handleGender = (event, data) => {
+        let { candidate } = this.state
+        candidate.gender = data.value
+        this.setState({candidate})
+    }
+
     render(){
         const {candidate, loading_candidate_image} = this.state
         const {amazon_connected} = Session.get('global_configuration')
         return(
             <Form onSubmit={this.submit}>
                 <Form.Group widths='equal'>
+                    <Form.Select
+                        value={candidate.gender}
+                        required
+                        options={[
+                            {key: "F", value: "F", text: "Femme"},
+                            {key: "M", value: "M", text: "Homme"}
+                        ]}
+                        onChange={this.handleGender}
+                        label="Genre"
+                    />
                     <Form.Input
                         label='Nom de famille'
                         onChange={this.handleCandidateChange}

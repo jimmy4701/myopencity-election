@@ -24,6 +24,11 @@ const CandidateSchema = new SimpleSchema({
       type: String,
       optional: true
     },
+    gender: {
+      type: String,
+      allowedValues: ['M', 'F'],
+      defaultValue: "M"
+    },
     votes: {
       type: Number,
       defaultValue: 0

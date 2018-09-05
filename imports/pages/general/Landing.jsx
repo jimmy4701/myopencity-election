@@ -12,6 +12,7 @@ import { CandidatesVotes } from '/imports/api/candidates_votes/candidates_votes'
 import { Partners } from '/imports/api/partners/partners'
 import CandidatePartial from '/imports/components/candidates/CandidatePartial'
 import Navbar from '/imports/components/navigation/Navbar'
+import styled from 'styled-components'
 
 export class Landing extends TrackerReact(Component) {
 
@@ -76,9 +77,10 @@ export class Landing extends TrackerReact(Component) {
             <Grid.Column width={16}>
               <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
                 <Grid.Column width={16}>
-                  {/* <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
-                  <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header> */}
-                  {Meteor.isClient && <Image src={"/images/ag-melee.gif?" + Random.id()} size="big" inline />}
+                  <HeaderText>
+                    <h2>Votez pour</h2>
+                    <h1>La Femina Numerica et l'Homo Numericus 2018</h1>
+                  </HeaderText>
                 </Grid.Column>
               </Grid>
             </Grid.Column>
@@ -192,3 +194,18 @@ export default LandingContainer = createContainer(() => {
     my_candidates,
   }
 }, Landing)
+
+const HeaderText = styled.div`
+  display: inline-block;
+  text-align: left;
+
+  > h2 {
+    font-size: 2em;
+    margin-bottom: 0;
+  }
+
+  > h1 {
+    font-size: 3em;
+    margin-top: 0;
+  }
+`
