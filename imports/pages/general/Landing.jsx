@@ -71,7 +71,7 @@ export class Landing extends TrackerReact(Component) {
             <Grid.Column width={16}>
               <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
                 <Grid.Column width={16}>
-                  <HeaderText>
+                  <HeaderText className="landing-header-text">
                     <h2>Votez pour</h2>
                     <h1>La Femina Numerica et l'Homo Numericus 2018</h1>
                   </HeaderText>
