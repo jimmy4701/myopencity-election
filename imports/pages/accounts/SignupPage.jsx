@@ -27,11 +27,6 @@ export default class SignupPage extends TrackerReact(Component) {
           </Grid.Column>
           <Grid.Column width={8}>
             <Header as="h1">Inscription</Header>
-            <Message warning>
-              <Message.Header>Concernant votre inscription</Message.Header>
-              <p>Afin de pouvoir voter, vous devez vous inscrire avec l'adresse email que vous aviez fournie lors de votre adhésion à La Mêlée.</p>
-              <p>Si vous ne vous rappelez plus de cette adresse email, merci de contacter La Mêlée au 05.32.10.81.20.</p>
-            </Message>
             <SignupForm />
           </Grid.Column>
         </Grid>

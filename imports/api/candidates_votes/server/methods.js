@@ -36,23 +36,12 @@ Meteor.methods({
       throw new Meteor.Error('403', "Les votes sont ne sont pas encore ouverts")      
     }
 
-    const authorized = AuthorizedEmails.findOne({email: user.emails[0].address});    
-    if(!(authorized || Roles.userIsInRole(this.userId, 'admin'))) {
+    if(candidates.length > 2) {
       VoteFrauds.insert({
         user: this.userId,
         email: user.emails[0].address,
         createdAt: new Date(),
-        reason: "A tenté de voter sans faire partie des voteurs autorisés"
-      })
-      throw new Meteor.Error('403', "Vous ne faites pas partis des voteurs autorisés")
-    }
-
-    if(candidates.length > nb_elected_candidates) {
-      VoteFrauds.insert({
-        user: this.userId,
-        email: user.emails[0].address,
-        createdAt: new Date(),
-        reason: `A tenté de voter pour plus de ${nb_elected_candidates} candidats`
+        reason: `A tenté de voter pour plus de 2 candidats`
       })
       throw new Meteor.Error('403', `Vous ne pouvez voter que pour ${nb_elected_candidates} candidats`)
     }
