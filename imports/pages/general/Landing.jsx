@@ -121,8 +121,8 @@ export class Landing extends TrackerReact(Component) {
                             <Message.Header>
                               Que dois-je faire pour voter ?
                             </Message.Header>
-                            <p>Vous devez créer un compte sur cette plateforme, avec votre adresse email fournie lors de votre adhésion.</p>
-                            <p>Une fois votre compte créé, vous pourrez alors voter pour {nb_elected_candidates} candidats sur cette page, en cliquant sur
+                            <p>Vous devez créer un compte sur cette plateforme.</p>
+                            <p>Une fois votre compte créé, vous pourrez alors voter pour 2 candidats sur cette page, une femme et un homme, en cliquant sur
                             le bouton "Voter"</p>
                             <Link to="/sign_up">
                               <Button color="blue">Créer mon compte pour voter</Button>
