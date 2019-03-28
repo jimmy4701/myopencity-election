@@ -160,6 +160,6 @@ export default MainLayoutContainer = createContainer(() => {
     @media screen and (max-width: 768px) {
       padding: 1em;
     }
-    margin-top: 6em;
+    margin-top: 5em;
   }
 `)
